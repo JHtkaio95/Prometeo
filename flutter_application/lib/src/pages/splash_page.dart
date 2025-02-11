@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/src/pages/home_page.dart';
 import 'package:lottie/lottie.dart';
 
-
 class SplashPage extends StatefulWidget {
-  const SplashPage({Key? key}) : super(key: key);
+  const SplashPage({super.key});
 
   @override
   SplashPageState createState() => SplashPageState();
