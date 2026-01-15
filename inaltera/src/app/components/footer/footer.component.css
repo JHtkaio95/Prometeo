@@ -1,0 +1,28 @@
+.ajustado-pagina{
+    min-height:4rem;
+    padding:2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.icono {
+    color:rgb(249, 249, 249);
+    background-color: rgba(0, 123, 255, 1);
+    margin-left:1rem;
+    border-radius:5px;
+    width:1.5rem;
+    height:1.5rem;
+}
+.menu-logo{
+    font-size:12px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color:gray;
+    margin-left:0.3rem;
+}
+.menu-logo h3{
+    margin:0;
+    margin-bottom: -3px;
+    color:black;
+    font-weight: bold;
+    letter-spacing: 1px;
+}

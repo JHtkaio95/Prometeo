@@ -1,0 +1,111 @@
+<div class="ajustado-pagina">
+    <div class="complemento-visual">
+        <div class="logotipo">
+            <div class="logo">
+                <mat-icon class="icono">arrow_outward</mat-icon>
+            </div>
+            <div class="menu-logo">
+                <h3>INALTERA</h3>
+                Tu solución NO-VERI*FACTU
+            </div>
+        </div>
+        <div class="titulos">
+            <h1>Cumplimento fiscal</h1>
+            <h2>sin complicaciones</h2>
+        </div>
+        <div class="texto">
+            INALTERA automatiza el sellado y registro de tus facturas, garantizando el cumplimiento con la normativa VERI**FACTU.
+        </div>
+        <div class="lista">
+            <ul>
+                <li>Sellado criptográfico automático</li>
+                <li>Registro inmutable de facturas</li>
+                <li>Generación de códigos QR verificables</li>
+                <li>Cumplimiento normativo garantizado</li>
+            </ul>
+            <p>&copy; 2026 INALTERA. Todos los derechos reservados.</p>
+        </div>
+    </div>
+    <div class="auth">
+        <div class="container-auth">
+            <div class="menu-auth">
+                <div class="logotipo visible">
+                    <div class="logo">
+                        <mat-icon class="icono">arrow_outward</mat-icon>
+                    </div>
+                    <div class="menu-logo">
+                        <h3>INALTERA</h3>
+                        Tu solución NO-VERI*FACTU
+                    </div>
+                </div>
+                <div class="botones">
+                    <button mat-button [ngClass]="{'activo': isLogin}" (click)="cambiarAuth(0)">Iniciar Sesión</button>
+                    <button mat-button [ngClass]="{'activo': isRegistro}" (click)="cambiarAuth(1)">Registrarse</button>
+                </div>
+            </div>
+            <div class="login caja" *ngIf="isLogin" >
+                <form autocomplete="true">
+                    <div>
+                        <h1>Bien Venido de nuevo!</h1>
+                        <p>Introduce tus credenciales</p>
+                    </div>
+                    <div class="elemento-formulario">
+                        <label for="correoLogin">Correo Electrónico</label><br/>
+                        <div class="lugar-datos">
+                            <mat-icon>drafts</mat-icon>
+                            <input name="correoLogin" type="email" placeholder="tucorreo@gmail.com"/>
+                        </div>
+                    </div>
+                    <div class="elemento-formulario">
+                        <label for="contrasenaLogin">Contraseña</label><br/>
+                        <div class="lugar-datos">
+                            <mat-icon>lock</mat-icon>
+                            <input name="contrasenaLogin" type="password" placeholder="••••••••"/>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="boton-envio">Iniciar Sesión</button>
+                    </div>
+                </form>
+            </div>
+            <div class="registro caja" *ngIf="isRegistro" >
+                <form autocomplete="false">
+                    <div>
+                        <h1>Bien Venido!</h1>
+                        <p>Introduce tus datos para registrarte</p>
+                    </div>
+                    <div class="elemento-formulario">
+                        <label for="nombre">Nombre</label><br/>
+                        <div class="lugar-datos">
+                            <input name="nombre" placeholder="Nombre"/>
+                        </div>
+                    </div>
+                    <div class="elemento-formulario">
+                        <label for="correoRegis">Correo Electrónico</label><br/>
+                        <div class="lugar-datos">
+                            <mat-icon>drafts</mat-icon>
+                            <input name="correoRegis" type="email" placeholder="tucorreo@gmail.com"/>
+                        </div>
+                    </div>
+                    <div class="elemento-formulario">
+                        <label for="contrasenaRegis">Contraseña</label><br/>
+                        <div class="lugar-datos">
+                            <mat-icon>lock</mat-icon>
+                            <input name="contrasenaRegis" type="password" placeholder="••••••••"/>
+                        </div>
+                    </div>
+                    <div class="elemento-formulario">
+                        <label for="confirmar">Confirmar Contraseña</label><br/>
+                        <div class="lugar-datos">
+                            <mat-icon>lock</mat-icon>
+                            <input name="confirmar" type="password" placeholder="••••••••"/>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="boton-envio">Iniciar Sesión</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="ajustado-pagina">
+    <div class="barra-lateral">
+        <div class="logotipo">
+            <div class="logo">
+                <mat-icon class="icono">arrow_outward</mat-icon>
+            </div>
+            <div class="menu-logo">
+                <h3>INALTERA</h3>
+                Tu solución NO-VERI*FACTU
+            </div>
+        </div>
+        <div class="lista-enlaces">
+            <ul>
+                <li class="objeto-enlace" (click)="activarContenido(0)" [ngClass]="{'activo': subPaginas[0]}">
+                    <div class="icono-enlace"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building2 w-5 h-5"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg></div>
+                    <div class="texto-enlace">
+                        <div class="nombre-enlace">Datos de Empresa</div>
+                        <div class="descripcion-enlace">Perfil y tarifas</div>
+                    </div>
+                </li>
+                <li class="objeto-enlace" (click)="activarContenido(1)" [ngClass]="{'activo': subPaginas[1]}">
+                    <div class="icono-enlace"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text w-5 h-5"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg></div>
+                    <div class="texto-enlace">
+                        <div class="nombre-enlace">Facturación</div>
+                        <div class="descripcion-enlace">Crear y cargar</div>
+                    </div>
+                </li>
+                <li class="objeto-enlace" (click)="activarContenido(2)" [ngClass]="{'activo': subPaginas[2]}">
+                    <div class="icono-enlace"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-list w-5 h-5"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M12 11h4"></path><path d="M12 16h4"></path><path d="M8 11h.01"></path><path d="M8 16h.01"></path></svg></div>
+                    <div class="texto-enlace">
+                        <div class="nombre-enlace">Registro</div>
+                        <div class="descripcion-enlace">Historial de facturas</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="pie-barra">
+            <hr/>
+            <div>Conectado como</div>
+            <div class="correo-usuario">CarlJohson&#64;gmail.com</div>
+            <div class="logout"><mat-icon>logout</mat-icon>Cerrar Sesión</div>
+        </div>
+    </div>
+    <div class="contenido">
+        <div class="activar-barra">
+            <mat-icon>menu</mat-icon>
+        </div>
+        <div class="contenedor-contenido" *ngIf="subPaginas[0]" >
+            <app-datos-empresa></app-datos-empresa>
+        </div>
+        <div class="contenedor-contenido" *ngIf="subPaginas[1]">
+            <app-facturacion></app-facturacion>
+        </div>
+        <div class="contenedor-contenido" *ngIf="subPaginas[2]">
+            <app-registro-facturas></app-registro-facturas>
+        </div>
+    </div>
+</div>
