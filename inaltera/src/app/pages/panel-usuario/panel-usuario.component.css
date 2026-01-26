@@ -1,11 +1,14 @@
-@keyframes fade-out {
-    
+@keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity: 1;}
 }
+
 
 .ajustado-pagina{
     margin:0;
     height:100%;
     display:flex;
+    width: 100%;
 }
 
 .activar-barra{
@@ -13,9 +16,16 @@
     height:0;
     width:0;
 }
-
+.boton-activar{
+    background-color: rgb(255, 255, 255);
+    color:rgba(0, 123, 255, 1);
+    z-index:91 ;
+}
 .barra-lateral{
-    background-color: rgb(29, 33, 43);
+    /*background-color: rgb(29, 33, 43);*/
+    background-image: linear-gradient(rgb(29, 33, 43)), url('/assets/texture.jpg');
+    background-size: contain;
+    background-blend-mode: multiply;
     transition: linear 0.2s;
     min-width: 10%;
     width: 25%;
@@ -138,13 +148,51 @@ ul{
     cursor:pointer;
 }
 
+
+
 @media(max-width:1045px){
+    .ajustado-pagina{
+        position: relative;
+        overflow: hidden;
+    }
+    .contenido{
+        width: 100%;
+        transition: filter 0.3s;
+    }
+    .super-posicion{
+        top:0;
+        left:0;
+        width:100%;
+        z-index:90;
+        height:100%;
+        position:fixed;
+        backdrop-filter:blur(10px);
+        background-color:rgba(255, 255, 255, 0.742);
+
+        animation:fadeIn ease-in-out 0.3s;
+    }
     .barra-lateral{
-        display:none;
-        
+        position: fixed;
+        transform: translateX(-100%);
+        transition: transform ease-in-out 0.3s;
+        width:280px;
+        max-width:80%;
+        top:0;
+        left:0;
+        height:100%;
+        z-index: 100;
+    }
+    .barra-fija {
+        transform: translateX(0);
     }
     .activar-barra{
         visibility: visible;
+        position: relative;
+        left:5px;
+        top:5px;
+        height:40px;
+        width:40px;
+        z-index: 91;
     }
 }
 

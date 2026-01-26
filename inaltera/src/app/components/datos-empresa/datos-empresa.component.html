@@ -1,1 +1,55 @@
-<p>datos-empresa works!</p>
+<div class="cabecera">
+    <h1>Datos de la Empresa y Tarifas</h1>
+    <h3>Gestiona tu perfil y plan de suscripción</h3>
+
+    <div class="menu">
+        <div [ngClass]="{'activo': isDatos}" (click)="cambiarVentana(0)"><mat-icon>build</mat-icon>Datos de Empresa</div>
+        <div [ngClass]="{'activo': isTarifa}" (click)="cambiarVentana(1)"><mat-icon>buid</mat-icon>Tarifas</div>
+    </div>
+</div>
+<div class="contenido">
+    <div>
+        <h1>Datos Fiscales</h1>
+        <p>Información de tu empresa para la emisión de facturas</p>
+    </div>
+    <form #f="ngForm" class="contenedor-empresa" (ngSubmit)="guardarEmpresa()" autocomplete="off">
+        <div class="grid">
+            <div>
+                <label>Razón Social</label>
+                <input class="cuadro" name="razon_social" [(ngModel)]="empresa.razon_social"/>
+            </div>
+        
+            <div>
+                <label>NIF/CIF</label>
+                <input class="cuadro" name="nif" [(ngModel)]="empresa.nif"/>
+            </div>
+        </div>
+        <div class="grid">
+            <div>
+                <label>Domicilio Fiscal</label>
+                <input class="cuadro" name="domicilio_fiscal" [(ngModel)]="empresa.domicilio_fiscal"/>
+            </div>
+            <div>
+                <label>Codigo Postal</label>
+                <input class="cuadro" name="codigo_postal" [(ngModel)]="empresa.codigo_postal"/>
+            </div>
+            <div>
+                <label>Localidad</label>
+                <input class="cuadro" name="localidad" [(ngModel)]="empresa.localidad"/>
+            </div>
+            <div>
+                <label>Provincia</label>
+                <input class="cuadro" name="provincia" [(ngModel)]="empresa.provincia"/>
+            </div>
+            <div>
+                <label>Pais</label>
+                <input class="cuadro" name="pais" [(ngModel)]="empresa.pais"/>
+            </div>
+            <div>
+                <label>Telefono De Contacto</label>
+                <input class="cuadro" name="telefono_empresarial" [(ngModel)]="empresa.telefono_empresarial" />
+            </div>
+        </div>
+        <button type="submit" class="boton-envio">Guardar</button>
+    </form>
+</div>

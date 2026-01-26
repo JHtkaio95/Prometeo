@@ -1,0 +1,80 @@
+.cabecera{
+    margin-bottom:2rem;
+}
+.cabecera h1{
+    font-weight: 700;
+}
+.cabecera h3 {
+    font-weight:400;
+    color:rgb(128, 128, 128);
+}
+.menu{
+    display:flex;
+    background-color: white;
+    gap:10px;
+    padding:5px;
+}
+.menu div{
+    border:1px solid rgb(225, 225, 225);
+    border-radius:5px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.125);
+    text-align: center;
+    width:50%;
+    cursor:pointer;
+}
+.activo{
+    background-color: rgba(0, 123, 255, 1);
+    color:white;
+}
+.contenido {
+    padding: 2rem;
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid rgb(209, 209, 209);
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+.grid label {
+    display: block;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 5px;
+}
+.input{
+    background-color: #eee !important;
+    cursor: not-allowed;
+    font-weight: 700;
+}
+.boton-envio {
+    transition:0.3s;
+    margin-top:1rem;
+    width:100%;
+    height:40px;
+    background-color:rgba(0, 123, 255, 1);
+    color:white;
+    font-weight: 600;
+    border:2px solid rgba(0, 123, 255, 1);
+    border-radius:5px;
+    cursor:pointer;
+}
+.cuadro{
+    width:100%;
+    height:32px;
+    border:1px solid #dddddd;
+    border-radius: 4px;
+    padding:0 8px;
+}
+
+.boton-envio:hover{
+    transition:0.3s;
+    background-color: rgba(0, 123, 255, 0.871);
+    backdrop-filter: blur(10px);
+    color:rgb(255, 255, 255);
+}

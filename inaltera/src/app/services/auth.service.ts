@@ -1,0 +1,185 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { Auth, User } from '../modelos/auth-modelo';
+import { AuthEmpresa, Empresa } from '../modelos/empresa-modelo';
+import { AuthFactura } from '../modelos/factura-modelo';
+import { DatePipe } from '@angular/common';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  public avail: boolean = false;
+  public msg: string = "";
+
+  private isAuthenticated = false;
+  private redirectUrl: string | null = null;
+  private authToken: string | null = null;
+  private siteKey = '';
+  private secretKey = '';
+
+  private readonly TOKEN_KEY = 'token_Data';
+  private readonly USER_DATA_KEY = 'USER_Data';
+  private readonly SESSION_EXPIRY_KEY = 'sessionExpiryData';
+  private readonly SESSION_DURATION = 5 * 24 * 60 * 60 * 1000;
+
+  apiURLUsers = environment.apiUrlLocal;
+  apiURLGoogleLogin = environment.apiUrl + 'GoogleLogin';
+
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {}
+
+  createUser(email: string, contrasenya: string): Observable<Auth> {
+    return this.http.post<Auth>(`${this.apiURLUsers}/registro.php`, {email, contrasenya});
+  }
+
+  crearEmpresa(NIF: string, razon_social: string, domicilio_fiscal: string, codigo_postal: string, localidad: string, provincia: string, pais: string, telefono_empresarial:number, id_usuario: number): Observable <AuthEmpresa>{
+    return this.http.post<AuthEmpresa>(`${this.apiURLUsers}/registrarEmpresa.php`, {NIF, razon_social, domicilio_fiscal, codigo_postal, localidad, provincia, pais, telefono_empresarial, id_usuario});
+  }
+
+  crearFactura(datos: any): Observable<AuthFactura>{
+    return this.http.post<AuthFactura>(`${this.apiURLUsers}/registrarFactura.php`, datos);
+  }
+
+  loginUser(email: string, contrasenya: string): Observable<Auth> {
+    return this.http.post<Auth>(`${this.apiURLUsers}/login.php`, {email, contrasenya})
+      .pipe (
+        tap(user => {
+          if(user.token) {
+            this.setUserSession(user);
+          }
+        })
+      );
+  }
+
+  buscarEmpresaParaUsuario(): Observable<any> {
+    return this.http.get<any>(`${this.apiURLUsers}/getEmpresa.php`);
+  }
+
+  setUserSession(user: Auth): void {
+    if(user && user.token) {
+      const data = {
+        id_usuario: user.id,
+        email: user.email,
+        role: user.role,
+        token: user.token
+      };
+      this.authToken = user.token;
+      this.setStorageItem(this.TOKEN_KEY, user.token);
+      this.setStorageItem(this.USER_DATA_KEY, JSON.stringify(data));
+      this.setSessionExpiry();
+      this.isAuthenticated = true;
+
+      if(user.role === undefined) {
+        const redirectUrl = this.getRedirectUrl();
+        this.setRedirectUrl(redirectUrl || '/panel');
+      }
+    } else {
+      console.error('Token de usuario es indefinido');
+      this.isAuthenticated = false;
+    }
+  }
+
+  private setStorageItem(key: string, value: string): void{
+    sessionStorage.setItem(key, value);
+  }
+
+  private removeStorageItem(key: string): void {
+    localStorage.removeItem(key);
+    sessionStorage.removeItem(key);
+  }
+
+  private setSessionExpiry(): void {
+    const expiryTime = new Date().getTime() + this.SESSION_DURATION;
+    sessionStorage.setItem(this.SESSION_EXPIRY_KEY, expiryTime.toString());
+  }
+
+  private checkSessionExpiry(): void {
+    const expiryTime = sessionStorage.getItem(this.SESSION_EXPIRY_KEY);
+    if(expiryTime) {
+      const currentTime = new Date().getTime();
+      if(currentTime >= +expiryTime) {
+        this.logout();
+      }
+    }
+  }
+
+  isLoggedIn(): boolean {
+    this.checkSessionExpiry();
+    this.authToken = this.getToken();
+    return !!this.authToken;
+  }
+
+  getFacturas(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiURLUsers}/get_facturas.php`);
+    
+  }
+
+  getToken(): string | null {
+    return sessionStorage.getItem(this.TOKEN_KEY) || localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  logout(): void {
+    this.removeStorageItem(this.TOKEN_KEY);
+    this.removeStorageItem(this.USER_DATA_KEY);
+    localStorage.removeItem("loged");
+    sessionStorage.removeItem(this.SESSION_EXPIRY_KEY);
+    this.clearSessionStorage();
+    this.isAuthenticated = false;
+    this.authToken = null;
+    this.router.navigate(['/auth']);
+  }
+
+  clearSessionStorage(): void {
+    sessionStorage.clear();
+  }
+
+  forgotInstructorcontrasenya(email: string):Observable<any> {
+    return this.http.post(`${this.apiURLUsers}/forgot-contrasenya`, { email });
+  }
+
+  resetUsercontrasenya(token: string, newcontrasenya: string): Observable<any> {
+    return this.http.post(`${this.apiURLUsers}/reset-contrasenya/${token}`, { newcontrasenya });
+  }
+
+  requestcontrasenyaResey(email: string): Observable<any> {
+    return this.http.post(`${this.apiURLUsers}/forgot-contrasenya`, { email });
+  }
+
+  veriry(token: string): Observable<any> {
+    
+    return this.http.get(`${this.apiURLUsers}/verify/${token}`);
+  }
+
+  verifyHcaptcha(response: string): Observable<any>{
+    const requestBody = { secret: this.secretKey, response };
+    return this.http.post(`${this.apiURLUsers}/verify-hcaptcha`, requestBody);
+  }
+
+  getSiteKey(): string {
+    return this.siteKey;
+  }
+
+  setRedirectUrl(url: string): void {
+    this.redirectUrl = url;
+  }
+
+  getRedirectUrl(): string | null {
+    const url = this.redirectUrl;
+    this.redirectUrl = null;
+    return url;
+  }
+
+  getIsAuthenticated(): boolean {
+    return this.isAuthenticated;
+  }
+
+  
+
+}

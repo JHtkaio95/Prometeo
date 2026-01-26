@@ -4,14 +4,14 @@ import { inject, Inject } from '@angular/core';
 export const panelGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
-  const loged = localStorage.getItem('loged');
+  const loged = sessionStorage.getItem("token_Data");
 
-  if(loged === 'true'){
+  if(loged){
     return true;
   } else {
-    //window.alert("Acceso denegado, hay que estar loggeado para acceder al panel");
-    //router.navigate(['/']);
-    return true;
+    window.alert("Inicia sesión o Registrate con nosotros.");
+    router.navigate(['/auth']);
+    return false;
   }
 
 };

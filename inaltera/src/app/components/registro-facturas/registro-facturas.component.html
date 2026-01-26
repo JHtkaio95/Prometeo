@@ -1,1 +1,44 @@
-<p>registro-facturas works!</p>
+<div class="cabecera">
+    <h1>Registro de Facturas</h1>
+    <h3>Consulta y descarga el historial dew tus facturas selladas</h3>
+
+    <div class="menu">
+        <div [ngClass]="{'activo': isRegistro}">aro</div>
+    </div>
+    <div>
+        <div><mat-icon></mat-icon>Filtros de búsqueda</div>
+        <h3>Busca por contenido o filtra</h3>
+    </div>
+</div>
+<div class="contenido">
+    <div>
+        <h1></h1>
+        <p></p>
+        <table class="tabela" >
+            <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Número</th>
+                <th>Cliente</th>
+                <th>Total (€)</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+            <tr>
+                @for(factura of listaFacturas; track factura){
+                    <td>{{factura.fecha_hora_generacion}}</td>
+                    <td>{{factura.tipo}}</td>
+                    <td>{{factura.numero}}</td>
+                    <td>{{factura.cliente}}</td>
+                    <td>{{factura.total}}</td>
+                    <td>{{factura.estado}}</td>
+                    <td>
+                        <button><mat-icon></mat-icon></button>
+                        <button><mat-icon></mat-icon></button>
+                        <button><mat-icon></mat-icon></button>
+                    </td>
+                }
+            </tr>
+        </table>
+    </div>
+</div>

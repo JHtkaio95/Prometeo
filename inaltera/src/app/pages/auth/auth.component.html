@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="login caja" *ngIf="isLogin" >
-                <form autocomplete="true">
+                <form #loginForm="ngForm" autocomplete="off" (ngSubmit)="hacerLogin()">
                     <div>
                         <h1>Bien Venido de nuevo!</h1>
                         <p>Introduce tus credenciales</p>
@@ -53,14 +53,24 @@
                         <label for="correoLogin">Correo Electrónico</label><br/>
                         <div class="lugar-datos">
                             <mat-icon>drafts</mat-icon>
-                            <input name="correoLogin" type="email" placeholder="tucorreo@gmail.com"/>
+                            <input 
+                                name="correoLogin"
+                                [(ngModel)]="emailLogi" 
+                                type="email" 
+                                placeholder="tucorreo@gmail.com"
+                                required="required"/>
                         </div>
                     </div>
                     <div class="elemento-formulario">
                         <label for="contrasenaLogin">Contraseña</label><br/>
                         <div class="lugar-datos">
                             <mat-icon>lock</mat-icon>
-                            <input name="contrasenaLogin" type="password" placeholder="••••••••"/>
+                            <input 
+                                name="contrasenaLogin"
+                                [(ngModel)]="passwordLogi"
+                                type="password" 
+                                placeholder="••••••••"
+                                required="required"/>
                         </div>
                     </div>
                     <div>
@@ -69,36 +79,45 @@
                 </form>
             </div>
             <div class="registro caja" *ngIf="isRegistro" >
-                <form autocomplete="false">
+                <form #registroForm="ngForm" autocomplete="off" (ngSubmit)="registrar()">
                     <div>
                         <h1>Bien Venido!</h1>
                         <p>Introduce tus datos para registrarte</p>
                     </div>
                     <div class="elemento-formulario">
-                        <label for="nombre">Nombre</label><br/>
-                        <div class="lugar-datos">
-                            <input name="nombre" placeholder="Nombre"/>
-                        </div>
-                    </div>
-                    <div class="elemento-formulario">
                         <label for="correoRegis">Correo Electrónico</label><br/>
                         <div class="lugar-datos">
                             <mat-icon>drafts</mat-icon>
-                            <input name="correoRegis" type="email" placeholder="tucorreo@gmail.com"/>
+                            <input
+                                name="correoRegis"
+                                [(ngModel)]="emailRegi"
+                                type="email" 
+                                placeholder="tucorreo@gmail.com"
+                                required="required"/>
                         </div>
                     </div>
                     <div class="elemento-formulario">
                         <label for="contrasenaRegis">Contraseña</label><br/>
                         <div class="lugar-datos">
                             <mat-icon>lock</mat-icon>
-                            <input name="contrasenaRegis" type="password" placeholder="••••••••"/>
+                            <input 
+                                name="contrasenaRegis"
+                                [(ngModel)]="passwordRegi"
+                                type="password" 
+                                placeholder="••••••••"
+                                required="required"/>
                         </div>
                     </div>
                     <div class="elemento-formulario">
                         <label for="confirmar">Confirmar Contraseña</label><br/>
                         <div class="lugar-datos">
                             <mat-icon>lock</mat-icon>
-                            <input name="confirmar" type="password" placeholder="••••••••"/>
+                            <input
+                                name="confirmar"
+                                [(ngModel)]="confirm"
+                                type="password"
+                                placeholder="••••••••"
+                                required="required"/>
                         </div>
                     </div>
                     <div>
