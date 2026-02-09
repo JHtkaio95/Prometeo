@@ -7,12 +7,21 @@
         <div [ngClass]="{'activo': isCargar}" (click)="cambiarVentana(1)"><mat-icon></mat-icon>Cargar</div>
     </div>
 </div>
+
+
+
 <div class="contenido">
     <div>
         <h1>Nueva Factura</h1>
         <p>Completa los datos para generar una factura</p>
     </div>
-    <form [formGroup]="facturaForm" class="contenedor-factura" autocomplete="off">
+    <div *ngIf="limiteAlcanzado" class="bloqueo-tarifa">
+        <mat-icon>lock</mat-icon>
+        <h3>Has alcanzado el límite de tu plan ({{infoSuscripcion.usadas}}/{{infoSuscripcion.max}})</h3>
+        <p>Tus facturas se reiniciarán el próximo mes o puedes subir de plan ahora.</p>
+        <button (click)="irAPlanes()">Mejorar Plan</button>
+    </div>
+    <form [formGroup]="facturaForm" *ngIf="!limiteAlcanzado" class="contenedor-factura" autocomplete="off">
         <div class="seccion-identificacion">
             <h3>Información Fiscal del Cliente</h3>
             <div class="grid-fiscal">
@@ -65,7 +74,7 @@
                     </div>
                     <div>
                         <label>Fecha de Vencimiento</label>
-                        <input name="fechaCad" type="date"/>
+                        <input name="fechaCad" type="date" formControlName="fecha_vencimiento"/>
                     </div>
                 </div>
             </div>
@@ -103,10 +112,10 @@
                     <option value="Serv">Servicio</option>
                     </select>
                 </td>
-                <td><input [name]="'pre'+i" min="0" type="number" formControlName="precioUnitario"></td>
-                <td><input [name]="'dto'+i" min="0" type="number" formControlName="descuentoPorcentaje"></td>
+                <td><input [name]="'pre'+i" min="0" type="number" formControlName="precio_unitario"></td>
+                <td><input [name]="'dto'+i" min="0" type="number" formControlName="descuento"></td>
                 <td>
-                    <select [name]="'iva'+i" formControlName="ivaPorcentaje">
+                    <select [name]="'iva'+i" formControlName="iva_porcentaje">
                     <option [ngValue]="21">21%</option>
                     <option [ngValue]="10">10%</option>
                     <option [ngValue]="4">4%</option>
@@ -150,7 +159,7 @@
             </div>
         </div>
         <div class="seccion-amem">
-            <button class="btn-enviar" (click)="registrarFactura()" type="submit">Crear y Sellar</button>
+            <button class="btn-enviar" (click)="submit()" type="submit">Crear y Sellar</button>
         </div>
     </form>
 </div>

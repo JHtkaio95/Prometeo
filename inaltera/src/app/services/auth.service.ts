@@ -21,13 +21,18 @@ export class AuthService {
   private authToken: string | null = null;
   private siteKey = '';
   private secretKey = '';
+  private usa!: Auth;
 
   private readonly TOKEN_KEY = 'token_Data';
   private readonly USER_DATA_KEY = 'USER_Data';
+  private readonly EMPRESA_DATA_KEY = 'Empresa_Data';
   private readonly SESSION_EXPIRY_KEY = 'sessionExpiryData';
   private readonly SESSION_DURATION = 5 * 24 * 60 * 60 * 1000;
 
+  private empresa = this.buscarEmpresaParaUsuario();
+
   apiURLUsers = environment.apiUrlLocal;
+  apiURLUsersLocal = environment.apiUrlLocal;
   apiURLGoogleLogin = environment.apiUrl + 'GoogleLogin';
 
   constructor(
@@ -47,6 +52,10 @@ export class AuthService {
     return this.http.post<AuthFactura>(`${this.apiURLUsers}/registrarFactura.php`, datos);
   }
 
+  cambiarTarifa(tarifa: number): Observable<any> {
+    return this.http.post<any>(`${this.apiURLUsers}/cambiarTarifa.php`, {tarifa});
+  }
+
   loginUser(email: string, contrasenya: string): Observable<Auth> {
     return this.http.post<Auth>(`${this.apiURLUsers}/login.php`, {email, contrasenya})
       .pipe (
@@ -62,15 +71,44 @@ export class AuthService {
     return this.http.get<any>(`${this.apiURLUsers}/getEmpresa.php`);
   }
 
+  getFacturas(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiURLUsers}/getFacturas.php`);
+  }
+
+  ActualizarUserSession(): Observable<Auth>{
+    return this.http.get<Auth>(`${this.apiURLUsers}/getDatosUsuario.php`)
+      .pipe(
+        tap(newData => {
+          // 1. Recuperamos lo que ya tenemos en sesión para no perder el token actual
+          const currentData = JSON.parse(sessionStorage.getItem("USER_Data") || '{}');
+
+          // 2. Fusionamos: mantenemos el token viejo pero actualizamos los datos nuevos
+          const updatedUser = { 
+              ...currentData, // Mantiene el token y datos previos
+              ...newData      // Sobrescribe con la nueva tarifa, etc.
+          };
+
+          // 3. Guardamos y actualizamos el estado de la app
+          this.setUserSession(updatedUser);
+          console.log("✅ Sesión sincronizada con la base de datos");
+        })
+      );
+  }
+  
   setUserSession(user: Auth): void {
     if(user && user.token) {
       const data = {
         id_usuario: user.id,
         email: user.email,
+        tarifa: user.tarifa,
+        factura_usadas: user.facturas_usadas,
+        limite_facturas: user.limite_facturas,
         role: user.role,
         token: user.token
       };
+      this.usa = user;
       this.authToken = user.token;
+      
       this.setStorageItem(this.TOKEN_KEY, user.token);
       this.setStorageItem(this.USER_DATA_KEY, JSON.stringify(data));
       this.setSessionExpiry();
@@ -114,11 +152,6 @@ export class AuthService {
     this.checkSessionExpiry();
     this.authToken = this.getToken();
     return !!this.authToken;
-  }
-
-  getFacturas(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiURLUsers}/get_facturas.php`);
-    
   }
 
   getToken(): string | null {

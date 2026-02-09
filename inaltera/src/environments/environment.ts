@@ -1,6 +1,6 @@
 export class environment {
 
-    public static apiUrl: string = "http://192.168.1.34/inaltera";
+    public static apiUrl: string = "http://192.168.1.36/inaltera";
     public static apiUrlLocal: string = "http://localhost/inaltera";
 
 }

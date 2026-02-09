@@ -24,21 +24,23 @@
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
-            <tr>
-                @for(factura of listaFacturas; track factura){
-                    <td>{{factura.fecha_hora_generacion}}</td>
-                    <td>{{factura.tipo}}</td>
-                    <td>{{factura.numero}}</td>
-                    <td>{{factura.cliente}}</td>
-                    <td>{{factura.total}}</td>
-                    <td>{{factura.estado}}</td>
-                    <td>
-                        <button><mat-icon></mat-icon></button>
-                        <button><mat-icon></mat-icon></button>
-                        <button><mat-icon></mat-icon></button>
-                    </td>
-                }
-            </tr>
+            @for(factura of listaFacturas; track factura){
+                <tr>
+                    
+                        <td>{{factura.fecha_emision}}</td>
+                        <td>{{factura.tipo_factura}}</td>
+                        <td>{{factura.numero}}</td>
+                        <td>{{factura.datos_cliente.nombre}}</td>
+                        <td>{{factura.importe_total}}</td>
+                        <td>{{factura.estado}}</td>
+                        <td>
+                            <button><mat-icon></mat-icon></button>
+                            <button><mat-icon></mat-icon></button>
+                            <button><mat-icon></mat-icon></button>
+                        </td>
+                    
+                </tr>
+            }
         </table>
     </div>
 </div>

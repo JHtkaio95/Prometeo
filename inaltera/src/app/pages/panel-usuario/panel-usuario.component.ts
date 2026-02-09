@@ -21,7 +21,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class PanelUsuarioComponent implements OnInit{
 
-  subPaginas: boolean[] = [false, true, false,];
+  subPaginas: boolean[] = [true, false, false,];
   isBarraActiva: boolean = false;
   email!: string;
   razon_social: string = "";

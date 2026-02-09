@@ -1,0 +1,114 @@
+/*TARIFAS -----------------
+-----------------
+-------------------------------
+--------------------*/
+
+.tarifas-expositor{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:1.5rem;
+}
+
+.tarifa-card{
+    background-color: #ffffff;
+    border-radius:10px;
+    border:1px solid rgba(0, 123, 255, 0.871);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width:33%;
+    height:450px;
+    padding-bottom:1.5rem;
+    font-size:17px;
+    transition:0.1s;
+}
+.hovered:hover {
+    transition:0.1s;
+    transform: scale(1.05);
+}
+.especify{
+    color:rgba(0, 123, 255, 0.871);
+    font-weight: bold;
+}
+h2, h3 {
+    text-align: center;
+}
+h2 {
+    font-size:35px;
+}
+h3 {
+    font-size: 30px;
+    font-weight: bold;
+}
+h3 i {
+    font-size: 20px;
+    color:gray;
+}
+.tarifa-card::before{
+    content:"";
+    height:20px;
+    width:10px;
+    padding:5px;
+}
+.tarifa-activa{
+    background-color: #E5F2FF4D;
+    border-color: rgb(0, 188, 0);
+}
+.tarifa-mejor {
+    border-width: 3px;
+}
+.tarifa-mejor::before {
+    content:"mejor";
+    position:relative;
+    top:-50px;
+    background-color:rgb(0, 123, 255);
+    color:white;
+    border-radius: 25px;
+    padding:5px;
+    font-weight: 500;
+    width:30%;
+    text-align: center;
+    transition:0.3s;
+}
+.subtitulo {
+    color:gray;
+    
+}
+li{
+    list-style: none;
+    margin-left:-3.5rem;
+    color:gray;
+}
+mat-icon{
+    color:rgb(2, 195, 60);
+}
+.boton-espacio{
+    width:80%;
+}
+button{
+    width:100%;
+    height:45px;
+    
+    color:white;
+    border:none;
+    font-size:15px;
+    font-weight: 500;
+    border-radius:10px;
+}
+.boton-tarifa-disponible{
+    background-color: rgba(0, 123, 255, 0.871);
+}
+.boton-tarifa-activa{
+    background-color: rgba(189, 189, 189, 0.871);
+}
+
+@media (max-width: 778px) {
+    .tarifas-expositor{
+        flex-direction: column;
+    }
+    .tarifa-card{
+        width:100%;
+    }
+}

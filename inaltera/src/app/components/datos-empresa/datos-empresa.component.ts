@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCommonModule } from '@angular/material/core';
 import { AuthService } from '../../services/auth.service';
+import { TarifasComponent } from '../tarifas/tarifas.component';
 
 export interface Empresa {
   nif: string;
@@ -19,14 +20,16 @@ export interface Empresa {
 @Component({
   selector: 'app-datos-empresa',
   standalone: true,
-  imports: [FormsModule, CommonModule, MatIconModule, MatCommonModule],
+  imports: [FormsModule, CommonModule, MatIconModule, MatCommonModule,
+    TarifasComponent
+  ],
   templateUrl: './datos-empresa.component.html',
   styleUrl: './datos-empresa.component.css'
 })
 export class DatosEmpresaComponent implements OnInit{
 
-  isDatos: boolean = true;
-  isTarifa: boolean = false;
+  isDatos: boolean = false;
+  isTarifa: boolean = true;
 
   empresa: Empresa = {
     nif: "",
@@ -74,23 +77,23 @@ export class DatosEmpresaComponent implements OnInit{
   }
 
   iniciarEmpresa() {
-  const dataString = sessionStorage.getItem("Empresa_Data");
+    const dataString = sessionStorage.getItem("Empresa_Data");
 
-  if (dataString) {
-    // Si ya los tenemos, los cargamos
-    this.asignarDatosEmpresa(JSON.parse(dataString));
-  } else {
-    // Si no, se los pedimos al servidor usando el Token
-    this.authService.buscarEmpresaParaUsuario().subscribe({
-      next: (dataBD) => {
-        this.asignarDatosEmpresa(dataBD);
-        // Guardamos para no volver a preguntar en esta sesión
-        sessionStorage.setItem("Empresa_Data", JSON.stringify(dataBD));
-      },
-      error: (err) => console.error("No se pudo obtener la empresa", err)
-    });
+    if (dataString) {
+      // Si ya los tenemos, los cargamos
+      this.asignarDatosEmpresa(JSON.parse(dataString));
+    } else {
+      // Si no, se los pedimos al servidor usando el Token
+      this.authService.buscarEmpresaParaUsuario().subscribe({
+        next: (dataBD) => {
+          this.asignarDatosEmpresa(dataBD);
+          // Guardamos para no volver a preguntar en esta sesión
+          sessionStorage.setItem("Empresa_Data", JSON.stringify(dataBD));
+        },
+        error: (err) => console.error("No se pudo obtener la empresa", err)
+      });
+    }
   }
-}
 
 asignarDatosEmpresa(data: any) {
   this.empresa.nif = data.NIF || data.nif;
@@ -104,7 +107,13 @@ asignarDatosEmpresa(data: any) {
 }
   
   cambiarVentana(index: number){
-
+    if(index === 0){
+      this.isDatos = true;
+      this.isTarifa = false;
+    } else if(index === 1) {
+      this.isDatos = false;
+      this.isTarifa = true;
+    }
   }
 
 }

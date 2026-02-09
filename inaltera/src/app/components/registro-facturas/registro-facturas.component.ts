@@ -1,10 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCommonModule } from '@angular/material/core';
 import { AuthService } from '../../services/auth.service';
-import { Factura } from '../../modelos/factura-modelo';
+
+export interface Cliente{
+  nombre: string;
+  nif: string;
+  direccion_completa: {
+    direccion: string;
+    codigo_postal: string;
+    localidad: string;
+    provincia: string;
+    pais: string;
+  };
+}
+
+export interface Factura {
+  Id: number;
+  NIF: string;
+  serie: string;
+  numero: number;
+  fecha_emision: string;
+  tipo_factura: string;
+  base_total: number;
+  iva_total: number;
+  importe_total: number;
+  estado: string;
+  id_usuario: number;
+  datos_cliente: Cliente;
+}
 
 @Component({
   selector: 'app-registro-facturas',
@@ -21,6 +47,7 @@ export class RegistroFacturasComponent implements OnInit{
 
   isRegistro: boolean = true;
 
+
   constructor(private fb: FormBuilder, private authService: AuthService){
     this.facturaForm = this.fb.group({
       
@@ -33,8 +60,21 @@ export class RegistroFacturasComponent implements OnInit{
 
   getFacturas() {
     this.authService.getFacturas().subscribe({
-      next: (data) => {
-        this.listaFacturas = data;
+      next: (data: any[]) => {
+        this.listaFacturas = data.map(f => ({
+          ...f,
+          NIF: String(f.NIF),
+          serie: String(f.serie),
+          numero:  Number(f.numero),
+          fecha_emision: f.fecha_emision,
+          tipo_factura: String(f.tipo_factura),
+          base_total: Number(f.base_total),
+          iva_total: Number(f.iva_total),
+          importe_total: Number(f.importe_total),
+          estado: String(f.estado),
+          id_usuario: Number(f.id_usuario),
+          datos_cliente: f.datos_cliente ? JSON.parse(f.datos_cliente) : null
+        }));
         console.log("Dados cargados correctamente");
       },
       error: (err) => console.error("Error al intentar conectar con la API", err)

@@ -1,0 +1,82 @@
+
+    <div>
+        <h1>Tarifas</h1>
+        <p></p>
+    </div>
+    <div class="tarifas-expositor">
+        <div class="tarifa-card" [ngClass]="{
+            'tarifa-activa': isTarifaActiva(0),
+            'hovered': !isTarifaActiva(0)
+        }" (click)="cambiarTarifa(0, 1)">
+            <div>
+                <h2>Gratuito</h2>
+                <p class="subtitulo">Ideal para autónomos</p>
+            </div>
+            <div>
+                <h3>0€<i>/mes</i></h3>
+                <p class="especify">0-5 facturas</p>
+            </div>
+            <div>
+                <ul>
+                    <li><mat-icon>check</mat-icon> 5 facturas/mes</li>
+                    <li><mat-icon>check</mat-icon> Sellado criptográfico</li>
+                    <li><mat-icon>check</mat-icon> Código QR</li>
+                    <li><mat-icon>check</mat-icon> Soporte por email</li>
+                </ul>
+            </div>
+            <div class="boton-espacio">
+                <button class="boton-tarifa-disponible" *ngIf="!isTarifaActiva(0)">Suscribirse</button>
+                <button class="boton-tarifa-activa" *ngIf="isTarifaActiva(0)">PlanActual</button>
+            </div>
+        </div>
+        <div class="tarifa-card tarifa-mejor" [ngClass]="{
+            'tarifa-activa': isTarifaActiva(1),
+            'hovered': !isTarifaActiva(1)
+        }" (click)="cambiarTarifa(1, 2)">
+            <div>
+                <h2>Básico</h2>
+                <p class="subtitulo">Para pequeñas empresas</p>
+            </div>
+            <div>
+                <h3>9€<i>/mes</i></h3>
+                <p class="especify">6-10 facturas</p>
+            </div>
+            <div>
+                <ul>
+                    <li><mat-icon>check</mat-icon> 10 facturas/mes</li>
+                    <li><mat-icon>check</mat-icon> Todo del plan Gratuito</li>
+                    <li><mat-icon>check</mat-icon> Exportación XML</li>
+                    <li><mat-icon>check</mat-icon> Soporte prioritario</li>
+                </ul>
+            </div>
+            <div class="boton-espacio">
+                <button class="boton-tarifa-disponible" *ngIf="!isTarifaActiva(1)">Suscribirse</button>
+                <button class="boton-tarifa-activa" *ngIf="isTarifaActiva(1)">PlanActual</button>
+            </div>
+        </div>
+        <div class="tarifa-card" [ngClass]="{
+            'tarifa-activa': isTarifaActiva(2),
+            'hovered': !isTarifaActiva(2)
+        }" (click)="cambiarTarifa(2, 3)">
+            <div>
+                <h2>Profesional</h2>
+                <p class="subtitulo">Para empresas en crecimiento</p>
+            </div>
+            <div>
+                <h3>15€<i>/mes</i></h3>
+                <p class="especify">11-20 facturas</p>
+            </div>
+            <div>
+                <ul>
+                    <li><mat-icon>check</mat-icon> 20 facturas/mes</li>
+                    <li><mat-icon>check</mat-icon> Todo del plan Básico</li>
+                    <li><mat-icon>check</mat-icon> API de integración</li>
+                    <li><mat-icon>check</mat-icon> Soporte telefónico</li>
+                </ul>
+            </div>
+            <div class="boton-espacio">
+                <button class="boton-tarifa-disponible" *ngIf="!isTarifaActiva(2)">Suscribirse</button>
+                <button class="boton-tarifa-activa" *ngIf="isTarifaActiva(2)">PlanActual</button>
+            </div>
+        </div>
+    </div>
