@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCommonModule } from '@angular/material/core';
 import { AuthService } from '../../services/auth.service';
 import { TarifasComponent } from '../tarifas/tarifas.component';
+import { UsoSuscripcionComponent } from '../uso-suscripcion/uso-suscripcion.component';
 
 export interface Empresa {
   nif: string;
@@ -21,7 +22,7 @@ export interface Empresa {
   selector: 'app-datos-empresa',
   standalone: true,
   imports: [FormsModule, CommonModule, MatIconModule, MatCommonModule,
-    TarifasComponent
+    TarifasComponent, UsoSuscripcionComponent
   ],
   templateUrl: './datos-empresa.component.html',
   styleUrl: './datos-empresa.component.css'

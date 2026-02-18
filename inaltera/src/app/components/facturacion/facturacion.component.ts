@@ -117,48 +117,52 @@ export class FacturacionComponent implements OnInit {
 
     const empresaDataString = sessionStorage.getItem("Empresa_Data"); 
 
-    if (userDataString && empresaDataString) {
-      const userData = JSON.parse(userDataString);
-      const empresaData = JSON.parse(empresaDataString);
+    if (userDataString !== null && empresaDataString !== null) {
+      try {
+        const userData = JSON.parse(userDataString);
+        const empresaData = JSON.parse(empresaDataString);
+        const id_usuario = userData['id_usuario'];
+        const correo_emisor = userData['email'];
+        const nif_emisor = empresaData['NIF']; 
+        const razon_emisor = empresaData['razon_social'];
+        const domicilio_emisor = empresaData['domicilio_fiscal'];
+        const codigo_postal_emisor = empresaData['codigo_postal'];
+        const localidad_emisor = empresaData['localidad'];
+        const provicincia_emisor = empresaData['provincia'];
+        const pais_emisor = empresaData['pais'];
+        const telefono_emisor = empresaData['telefono_empresarial'];
 
-      const id_usuario = userData['id_usuario'];
-      const correo_emisor = userData['email'];
-      const nif_emisor = empresaData['NIF']; 
-      const razon_emisor = empresaData['razon_social'];
-      const domicilio_emisor = empresaData['domicilio_fiscal'];
-      const codigo_postal_emisor = empresaData['codigo_postal'];
-      const localidad_emisor = empresaData['localidad'];
-      const provicincia_emisor = empresaData['provincia'];
-      const pais_emisor = empresaData['pais'];
-      const telefono_emisor = empresaData['telefono_empresarial'];
+        const payload = {
+          ...this.facturaForm.value,
+          emisor_nif: nif_emisor,
+          correo_emisor: correo_emisor,
+          id_usuario: id_usuario,
+          razon_social_emisor: razon_emisor,
+          domicilio_emisor: domicilio_emisor,
+          codigo_postal_emisor: codigo_postal_emisor,
+          localidad_emisor: localidad_emisor,
+          provicincia_emisor: provicincia_emisor,
+          pais_emisor: pais_emisor,
+          telefono_emisor: telefono_emisor
+        };
 
-      const payload = {
-        ...this.facturaForm.value,
-        emisor_nif: nif_emisor,
-        correo_emisor: correo_emisor,
-        id_usuario: id_usuario,
-        razon_social_emisor: razon_emisor,
-        domicilio_emisor: domicilio_emisor,
-        codigo_postal_emisor: codigo_postal_emisor,
-        localidad_emisor: localidad_emisor,
-        provicincia_emisor: provicincia_emisor,
-        pais_emisor: pais_emisor,
-        telefono_emisor: telefono_emisor
-      };
+        console.log("🐦: Começo");
+        console.log("🚀 Payload listo para enviar:", payload);
 
-      console.log("🐦: Começo");
-      console.log("🚀 Payload listo para enviar:", payload);
-
-      this.authService.crearFactura(payload).subscribe({
-        next: (res) => {
-          console.log('✅ Factura procesada:', res);
-          alert('Factura guardada con éxito');
-        },
-        error: (err) => {
-          console.error('❌ Error en el servidor:', err);
-        }
-      });
-
+        this.authService.crearFactura(payload).subscribe({
+          next: (res) => {
+            console.log('✅ Factura procesada:', res);
+            alert('Factura guardada con éxito');
+            this.authService.ActualizarUserSession().subscribe();
+          },
+          error: (err) => {
+            console.error('❌ Error en el servidor:', err);
+          }
+        });
+    
+      } catch(error) {
+        console.error("Datos corruptos o incorrecto", error);
+      }
     } else {
       console.error("❌ No se encontraron datos en sessionStorage. USER_Data o EMPRESA_Data están vacíos.");
       alert("Error de sesión: No se pudieron recuperar los datos del emisor.");

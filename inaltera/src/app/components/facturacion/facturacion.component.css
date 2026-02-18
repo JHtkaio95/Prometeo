@@ -13,14 +13,25 @@
     background-color: white;
     gap:10px;
     padding:5px;
+    width:350px;
 }
 .menu div{
     border:1px solid rgb(225, 225, 225);
     border-radius:5px;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.125);
     text-align: center;
+    display:flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    height:30px;
     width:50%;
+}
+.menu div mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height:15px;
+    margin-right:5px;
 }
 .activo{
     background-color: rgba(0, 123, 255, 1);
@@ -57,9 +68,6 @@
     font-size: 13px;
     color: #666;
     margin-bottom: 5px;
-}
-.zona-cabecera{
-    
 }
 .espaciado{
     flex:1 1 auto;

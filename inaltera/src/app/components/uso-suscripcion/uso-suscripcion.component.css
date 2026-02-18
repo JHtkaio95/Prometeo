@@ -1,0 +1,86 @@
+.contenedor-uso {
+  width: 100%;
+  font-family: sans-serif;
+}
+
+/* Estilos Círculo */
+.modo-circulo {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  margin: 0 auto;
+}
+svg {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+  
+}
+circle {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  
+}
+.fondo {
+  stroke: #eee;
+  filter: drop-shadow(0 0 4px rgb(250, 250, 250));
+}
+.progreso { 
+  stroke-dasharray: 283; 
+  transition: stroke-dashoffset 0.6s ease;
+  
+}
+.info-central {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  
+}
+.numero {
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: block;
+}
+.separador, .total {
+  font-size: 0.7rem;
+  color: #888;
+}
+
+/* Estilos Barra */
+.modo-barra {
+  padding-left:1.5rem;
+  padding-top:1rem;
+}
+.modo-barra .labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  width:90%;
+  font-size: 0.9rem;
+}
+.track {
+  width: 90%;
+  height: 10px;
+  background: #f5fdff;
+  border:1px solid rgb(197, 197, 197);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.fill { 
+  height: 100%;
+  transition: width 0.6s ease;
+}
+small{
+  color:rgb(255, 255, 255);
+  font-weight: 500;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.modo-barra small {
+  display: block;
+  margin-top: 5px;
+  color: #666;
+  font-size: 0.8rem; 
+}

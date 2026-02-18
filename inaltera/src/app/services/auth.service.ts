@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Auth, User } from '../modelos/auth-modelo';
@@ -22,6 +22,8 @@ export class AuthService {
   private siteKey = '';
   private secretKey = '';
   private usa!: Auth;
+  private userSubject = new BehaviorSubject<any>(JSON.parse(sessionStorage.getItem("USER_Data") || '{}'));
+
 
   private readonly TOKEN_KEY = 'token_Data';
   private readonly USER_DATA_KEY = 'USER_Data';
@@ -30,8 +32,9 @@ export class AuthService {
   private readonly SESSION_DURATION = 5 * 24 * 60 * 60 * 1000;
 
   private empresa = this.buscarEmpresaParaUsuario();
+  public user$ = this.userSubject.asObservable();
 
-  apiURLUsers = environment.apiUrlLocal;
+  apiURLUsers = environment.apiUrl;
   apiURLUsersLocal = environment.apiUrlLocal;
   apiURLGoogleLogin = environment.apiUrl + 'GoogleLogin';
 
@@ -101,7 +104,8 @@ export class AuthService {
         id_usuario: user.id,
         email: user.email,
         tarifa: user.tarifa,
-        factura_usadas: user.facturas_usadas,
+        nombre_tarifa: user.nombre_tarifa,
+        facturas_usadas: user.facturas_usadas,
         limite_facturas: user.limite_facturas,
         role: user.role,
         token: user.token
@@ -113,6 +117,7 @@ export class AuthService {
       this.setStorageItem(this.USER_DATA_KEY, JSON.stringify(data));
       this.setSessionExpiry();
       this.isAuthenticated = true;
+      this.userSubject.next(user);
 
       if(user.role === undefined) {
         const redirectUrl = this.getRedirectUrl();

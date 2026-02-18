@@ -1,0 +1,32 @@
+<div [ngSwitch]="tipo" class="contenedor-uso">
+
+  <div *ngSwitchCase="'circulo'" class="modo-circulo">
+    <svg viewBox="0 0 150 150" class="barra-circular">
+      <circle class="fondo" cx="75" cy="75" r="40"></circle>
+      <circle class="progreso" cx="75" cy="75" r="40"
+              [style.stroke-dashoffset]="strokeOffset"
+              [style.stroke]="colorEstado"></circle>
+    </svg>
+    <div class="info-central">
+      <span class="numero">{{ usadas }}</span>
+      <span class="separador">/</span>
+      <span class="total">{{ maximo }}</span>
+    </div>
+    <small>Facturas este mes</small>
+  </div>
+
+  <div *ngSwitchCase="'barra'" class="modo-barra">
+    <div class="labels">
+      <span>Plan: <strong>{{ nombreTarifa }}</strong></span>
+      <span class="label-porcent">{{ porcentaje | number:'1.0-0' }}%</span>
+    </div>
+    <div class="track">
+      <div class="fill" 
+           [style.width.%]="porcentaje" 
+           [style.background-color]="colorEstado">
+      </div>
+    </div>
+    <small>Quedan {{ maximo - usadas }} facturas disponibles</small>
+  </div>
+
+</div>

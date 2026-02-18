@@ -3,8 +3,8 @@
     <h3>Gestiona tu perfil y plan de suscripción</h3>
 
     <div class="menu">
-        <div [ngClass]="{'activo': isDatos}" (click)="cambiarVentana(0)"><mat-icon>build</mat-icon>Datos de Empresa</div>
-        <div [ngClass]="{'activo': isTarifa}" (click)="cambiarVentana(1)"><mat-icon>buid</mat-icon>Tarifas</div>
+        <div [ngClass]="{'activo': isDatos}" (click)="cambiarVentana(0)"><mat-icon>person</mat-icon>Datos de Empresa</div>
+        <div [ngClass]="{'activo': isTarifa}" (click)="cambiarVentana(1)"><mat-icon>credit_card</mat-icon>Tarifas</div>
     </div>
 </div>
 <div class="contenido" *ngIf="isDatos">
@@ -54,5 +54,12 @@
     </form>
 </div>
 <div class="contenido-tarifa" *ngIf="isTarifa">
+    <div class="tarifa-status">
+        
+        <div class="progress-bar-container">
+            <app-uso-suscripcion tipo="barra"></app-uso-suscripcion>
+        </div>
+
+    </div>
     <app-tarifas></app-tarifas>
 </div>

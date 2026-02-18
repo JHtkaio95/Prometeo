@@ -7,21 +7,21 @@ import { RegistroFacturasComponent } from '../../components/registro-facturas/re
 import { FacturacionComponent } from '../../components/facturacion/facturacion.component';
 import { DatosEmpresaComponent } from '../../components/datos-empresa/datos-empresa.component';
 import { AuthService } from '../../services/auth.service';
-
+import { UsoSuscripcionComponent } from '../../components/uso-suscripcion/uso-suscripcion.component';
 
 @Component({
   selector: 'app-panel-usuario',
   standalone: true,
   imports: [MatButtonModule, MatCommonModule, MatIconModule,
     CommonModule, DatosEmpresaComponent, RegistroFacturasComponent,
-    FacturacionComponent
+    FacturacionComponent, UsoSuscripcionComponent
   ],
   templateUrl: './panel-usuario.component.html',
   styleUrl: './panel-usuario.component.css'
 })
 export class PanelUsuarioComponent implements OnInit{
 
-  subPaginas: boolean[] = [true, false, false,];
+  subPaginas: boolean[] = [false, false, true,];
   isBarraActiva: boolean = false;
   email!: string;
   razon_social: string = "";

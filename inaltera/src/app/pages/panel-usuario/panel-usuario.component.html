@@ -34,6 +34,10 @@
                 </li>
             </ul>
         </div>
+        <div class="energy-container">
+            <app-uso-suscripcion tipo="circulo"></app-uso-suscripcion>
+        </div>
+        <span class="espaciado"></span>
         <div class="pie-barra">
             <hr/>
             <div>Conectado como</div>
@@ -41,9 +45,11 @@
             <div class="logout" (click)="logout()"><mat-icon>logout</mat-icon>Cerrar Sesión</div>
         </div>
     </div>
+
     <div class="super-posicion" *ngIf="isBarraActiva" (click)="cambiarBarra()">
 
     </div>
+
     <div class="contenido">
         <div class="activar-barra">
             <button class="boton-activar" mat-button-icon (click)="cambiarBarra()"><mat-icon>menu</mat-icon></button>

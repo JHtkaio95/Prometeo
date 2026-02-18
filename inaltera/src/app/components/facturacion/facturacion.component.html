@@ -3,8 +3,8 @@
     <h3>Crea nuevas facturas o sube PDFs para sellar</h3>
 
     <div class="menu">
-        <div [ngClass]="{'activo': isElaborar}" (click)="cambiarVentana(0)"><mat-icon></mat-icon>Elaborar Factura</div>
-        <div [ngClass]="{'activo': isCargar}" (click)="cambiarVentana(1)"><mat-icon></mat-icon>Cargar</div>
+        <div [ngClass]="{'activo': isElaborar}" (click)="cambiarVentana(0)"><mat-icon>receipt</mat-icon>Elaborar Factura</div>
+        <div [ngClass]="{'activo': isCargar}" (click)="cambiarVentana(1)"><mat-icon>upload</mat-icon>Cargar</div>
     </div>
 </div>
 
