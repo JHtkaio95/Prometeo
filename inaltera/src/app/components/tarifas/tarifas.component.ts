@@ -4,11 +4,12 @@ import { MatCommonModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 import { switchMap } from 'rxjs';
+import { UsoSuscripcionComponent } from '../uso-suscripcion/uso-suscripcion.component';
 
 @Component({
   selector: 'app-tarifas',
   standalone: true,
-  imports: [MatCommonModule, MatIconModule, CommonModule],
+  imports: [MatCommonModule, MatIconModule, CommonModule, UsoSuscripcionComponent],
   templateUrl: './tarifas.component.html',
   styleUrl: './tarifas.component.css'
 })

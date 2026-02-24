@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { MatCommonModule } from '@angular/material/core';
+import { MatCommonModule} from '@angular/material/core';
 import { AuthService } from '../../services/auth.service';
+import { MatFormField} from '@angular/material/form-field';
+import { MatDatepickerModule} from '@angular/material/datepicker';
+
 
 export interface Cliente{
   nombre: string;
@@ -35,18 +38,40 @@ export interface Factura {
 @Component({
   selector: 'app-registro-facturas',
   standalone: true,
-  imports: [FormsModule, CommonModule, MatCommonModule, MatIconModule],
+  imports: [FormsModule, CommonModule, MatCommonModule, MatIconModule,
+    MatFormField, MatDatepickerModule
+  ],
   templateUrl: './registro-facturas.component.html',
   styleUrl: './registro-facturas.component.css'
 })
 export class RegistroFacturasComponent implements OnInit{
   facturaForm: FormGroup;
 
+  textoBusqueda: string = '';
+  fechaDesde: Date | null = null;
+  fechaHasta: Date | null = null;
 
+  facturasOriginales: any[] = []; 
+  facturasFiltradas: any[] = [];  
+
+  aplicarFiltros() {
+    this.facturasFiltradas = this.facturasOriginales.filter(f => {
+      
+      const busqueda = this.textoBusqueda.toLowerCase();
+      const cumpleTexto = !busqueda || 
+                          f.numero.toString().includes(busqueda) || 
+                          f.serie.toLowerCase().includes(busqueda) ||
+                          JSON.stringify(f.datos_cliente).toLowerCase().includes(busqueda);
+
+      const fechaFactura = new Date(f.fecha_emision);
+      const cumpleDesde = !this.fechaDesde || fechaFactura >= this.fechaDesde;
+
+      const cumpleHasta = !this.fechaHasta || fechaFactura <= this.fechaHasta;
+
+      return cumpleTexto && cumpleDesde && cumpleHasta;
+    });
+  }
   listaFacturas: Factura[] = [];
-
-  isRegistro: boolean = true;
-
 
   constructor(private fb: FormBuilder, private authService: AuthService){
     this.facturaForm = this.fb.group({

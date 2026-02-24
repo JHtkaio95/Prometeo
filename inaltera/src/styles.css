@@ -2,3 +2,58 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.activo, .blue-button, .logo {
+    transition:0.1s;
+    background: linear-gradient(135deg, rgba(0, 123, 255, 1) 0%, rgb(0, 92, 190) 100%);
+    color:white;
+}
+
+.activo:hover, .blue-button:hover {
+    transition:0.1s;
+    filter: invert();
+}
+.cabecera{
+    margin-bottom:2rem;
+}
+.cabecera h1{
+    font-weight: 700;
+}
+.cabecera h3 {
+    font-weight:400;
+    color:rgb(128, 128, 128);
+}
+.menu {
+    display:flex;
+    background-color: white;
+    gap:10px;
+    padding:5px;
+    width:350px;
+}
+.menu div{
+    border:1px solid rgb(225, 225, 225);
+    border-radius:5px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.125);
+    text-align: center;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    height:30px;
+    width:50%;
+}
+.menu div mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height:15px;
+    margin-right:5px;
+}
+
+.contenido {
+    padding: 2rem;
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid rgb(209, 209, 209);
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: auto;
+}

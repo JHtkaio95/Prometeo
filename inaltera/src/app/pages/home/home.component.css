@@ -163,7 +163,7 @@ a{
     border-radius:5px;
 }
 .boton-comun {
-    background-color: rgba(0, 123, 255, 1);
+    background: linear-gradient(135deg, rgba(0, 123, 255, 1) 0%, rgb(0, 92, 190) 100%);
     padding:20px;
 }
 

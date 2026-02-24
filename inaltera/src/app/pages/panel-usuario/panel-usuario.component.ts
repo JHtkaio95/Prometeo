@@ -8,25 +8,27 @@ import { FacturacionComponent } from '../../components/facturacion/facturacion.c
 import { DatosEmpresaComponent } from '../../components/datos-empresa/datos-empresa.component';
 import { AuthService } from '../../services/auth.service';
 import { UsoSuscripcionComponent } from '../../components/uso-suscripcion/uso-suscripcion.component';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-panel-usuario',
   standalone: true,
   imports: [MatButtonModule, MatCommonModule, MatIconModule,
     CommonModule, DatosEmpresaComponent, RegistroFacturasComponent,
-    FacturacionComponent, UsoSuscripcionComponent
+    FacturacionComponent, UsoSuscripcionComponent, RouterOutlet, RouterLink, RouterLinkActive
   ],
   templateUrl: './panel-usuario.component.html',
   styleUrl: './panel-usuario.component.css'
 })
 export class PanelUsuarioComponent implements OnInit{
 
-  subPaginas: boolean[] = [false, false, true,];
   isBarraActiva: boolean = false;
   email!: string;
   razon_social: string = "";
 
-  constructor(private authService: AuthService){}
+  constructor(
+    private authService: AuthService
+  ){}
 
   ngOnInit(){
     const dataString = sessionStorage.getItem("USER_Data");
@@ -42,6 +44,10 @@ export class PanelUsuarioComponent implements OnInit{
     this.authService.logout();
   }
 
+  funcionBarra(){
+    this.desactivarBarra();
+  }
+
   cambiarBarra(){
     if(this.isBarraActiva){
       this.isBarraActiva = false;
@@ -50,24 +56,10 @@ export class PanelUsuarioComponent implements OnInit{
     }
   }
 
-  funcionBarra(index: number){
-    this.activarContenido(index);
-    this.desactivarBarra();
-  }
-
   desactivarBarra() {
     if(this.isBarraActiva) {
       this.isBarraActiva = false;
     }
-  }
-
-  activarContenido(index: number){
-    for(let i = 0; i < this.subPaginas.length; i++){
-      this.subPaginas[i] = false;
-    }
-
-    this.subPaginas[index] = true;
-
   }
 
 }

@@ -1,0 +1,34 @@
+<form #loginForm="ngForm" autocomplete="off" (ngSubmit)="hacerLogin()">
+    <div>
+        <h1>Bienvenido de nuevo!</h1>
+        <p>Introduce tus credenciales</p>
+    </div>
+    <div class="elemento-formulario">
+        <label for="correoLogin">Correo Electrónico</label><br/>
+        <div class="lugar-datos">
+            <mat-icon>drafts</mat-icon>
+            <input 
+                name="correoLogin"
+                [(ngModel)]="emailLogi" 
+                type="email" 
+                placeholder="tucorreo@gmail.com"
+                required="required"/>
+        </div>
+    </div>
+    <div class="elemento-formulario">
+        <label for="contrasenaLogin">Contraseña</label><br/>
+        <div class="lugar-datos">
+            <mat-icon>lock</mat-icon>
+            <input 
+                name="contrasenaLogin"
+                [(ngModel)]="passwordLogi"
+                type="password" 
+                placeholder="••••••••"
+                required="required"/>
+        </div>
+    </div>
+    <div>
+        <button type="submit" class="boton-envio">Iniciar Sesión</button>
+    </div>
+</form>
+

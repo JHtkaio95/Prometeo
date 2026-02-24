@@ -1,0 +1,45 @@
+<form #registroForm="ngForm" autocomplete="off" (ngSubmit)="registrar()">
+    <div>
+        <h1>Bienvenido!</h1>
+        <p>Introduce tus datos para registrarte</p>
+    </div>
+    <div class="elemento-formulario">
+        <label for="correoRegis">Correo Electrónico</label><br/>
+        <div class="lugar-datos">
+            <mat-icon>drafts</mat-icon>
+            <input
+                name="correoRegis"
+                [(ngModel)]="emailRegi"
+                type="email" 
+                placeholder="tucorreo@gmail.com"
+                required="required"/>
+        </div>
+    </div>
+    <div class="elemento-formulario">
+        <label for="contrasenaRegis">Contraseña</label><br/>
+        <div class="lugar-datos">
+            <mat-icon>lock</mat-icon>
+            <input 
+                name="contrasenaRegis"
+                [(ngModel)]="passwordRegi"
+                type="password" 
+                placeholder="••••••••"
+                required="required"/>
+        </div>
+    </div>
+    <div class="elemento-formulario">
+        <label for="confirmar">Confirmar Contraseña</label><br/>
+        <div class="lugar-datos">
+            <mat-icon>lock</mat-icon>
+            <input
+                name="confirmar"
+                [(ngModel)]="confirm"
+                type="password"
+                placeholder="••••••••"
+                required="required"/>
+        </div>
+    </div>
+    <div>
+        <button type="submit" class="boton-envio">Iniciar Sesión</button>
+    </div>
+</form>

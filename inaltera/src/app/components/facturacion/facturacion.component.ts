@@ -43,8 +43,7 @@ export class FacturacionComponent implements OnInit {
     lineas: this.fb.array([])
   });
   
-  isElaborar: boolean = true;
-  isCargar: boolean = false;
+  
   limiteAlcanzado: boolean = false;
   infoSuscripcion = { usadas: 0, max: 0};
 
@@ -79,19 +78,6 @@ export class FacturacionComponent implements OnInit {
 
   get lineas() {return this.facturaForm.get('lineas') as FormArray; }
 
-  cambiarVentana(index: number){
-    if(index === 0){
-      if(!this.isElaborar){
-        this.isElaborar = true;
-        this.isCargar = false;
-      }
-    } else if (index === 1){
-      if(!this.isCargar) {
-        this.isCargar = true;
-        this.isElaborar = false;
-      }
-    }
-  }
 
   agregarLinea() {
     const linea = this.fb.group ({
@@ -131,19 +117,24 @@ export class FacturacionComponent implements OnInit {
         const provicincia_emisor = empresaData['provincia'];
         const pais_emisor = empresaData['pais'];
         const telefono_emisor = empresaData['telefono_empresarial'];
+        
+        const datos_emisor = [
+          id_usuario,
+          correo_emisor,
+          nif_emisor,
+          razon_emisor,
+          domicilio_emisor,
+          codigo_postal_emisor,
+          localidad_emisor,
+          provicincia_emisor,
+          pais_emisor,
+          telefono_emisor
+        ];
 
         const payload = {
           ...this.facturaForm.value,
-          emisor_nif: nif_emisor,
-          correo_emisor: correo_emisor,
-          id_usuario: id_usuario,
-          razon_social_emisor: razon_emisor,
-          domicilio_emisor: domicilio_emisor,
-          codigo_postal_emisor: codigo_postal_emisor,
-          localidad_emisor: localidad_emisor,
-          provicincia_emisor: provicincia_emisor,
-          pais_emisor: pais_emisor,
-          telefono_emisor: telefono_emisor
+          datos_emisor,
+          nif_emisor
         };
 
         console.log("🐦: Começo");

@@ -29,8 +29,6 @@ export interface Empresa {
 })
 export class DatosEmpresaComponent implements OnInit{
 
-  isDatos: boolean = false;
-  isTarifa: boolean = true;
 
   empresa: Empresa = {
     nif: "",
@@ -106,15 +104,5 @@ asignarDatosEmpresa(data: any) {
   this.empresa.pais = data.pais;
   this.empresa.telefono_empresarial = data.telefono_empresarial;
 }
-  
-  cambiarVentana(index: number){
-    if(index === 0){
-      this.isDatos = true;
-      this.isTarifa = false;
-    } else if(index === 1) {
-      this.isDatos = false;
-      this.isTarifa = true;
-    }
-  }
 
 }

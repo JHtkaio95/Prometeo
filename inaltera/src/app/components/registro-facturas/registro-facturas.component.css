@@ -1,35 +1,52 @@
-.cabecera{
-    margin-bottom:2rem;
-}
-.cabecera h1{
-    font-weight: 700;
-}
-.cabecera h3 {
-    font-weight:400;
-    color:rgb(128, 128, 128);
-}
-.menu{
-    display:flex;
+
+
+.zona-filtraje {
     background-color: white;
-    gap:10px;
-    padding:5px;
-}
-.menu div{
-    border:1px solid rgb(225, 225, 225);
+    padding:1.5rem;
+    border:1px solid gray;
     border-radius:5px;
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.125);
-    text-align: center;
-    width:50%;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.128);
+
 }
-.activo{
-    background-color: rgba(0, 123, 255, 1);
-    color:white;
+.zona-filtraje h1{
+    font-weight: 500;
+}
+.zona-filtraje div{
+    display: flex;
+    align-items: center;}
+.zona-filtraje input {
+    font-size:15px;
+    border:none;
+    width:100%;
+}
+
+.zona-filtraje input:focus {
+    box-shadow: none;
+    border:none;
+    outline: none;
+}
+
+.elemento{
+    border:1px solid rgb(229, 229, 229);
+    background-color: rgb(251, 254, 255);
+    margin: 0.5rem;
+    border-radius:10px;
+    padding:5px;
+    height:40px;
+}
+.texto{
+    width:50%;
+    color:gray;
+}
+.data {
+    width:20%;
 }
 
 /*Contenido ============================================*/
 
 .contenido {
-    padding: 2rem;
+    overflow-x: scroll;
+    scroll-snap-strictness:proximity;
     border-radius: 10px;
     background-color: white;
     border: 1px solid rgb(209, 209, 209);
@@ -64,6 +81,31 @@ th:last-child{
     border-right-style: solid;
     border-right-color: gray;
     border-radius: 0px 5px 0px 0px; 
+}
+.espacio-boton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.funciones {
+    transition:0.1s;
+    cursor: pointer;
+    width:34px;
+    height:34px;
+    border:none;
+    font-size: 20px;
+    border-radius: 5px;
+    margin:5px;
+    background-color: rgba(255, 255, 255, 0);
+}
+.funciones svg{
+    width:15px;
+    height:15px;
+}
+.funciones:hover {
+    transition:0.1s;
+    color:rgba(0, 123, 255, 1);
+    background-color: rgba(172, 227, 255, 0.71);
 }
 
 

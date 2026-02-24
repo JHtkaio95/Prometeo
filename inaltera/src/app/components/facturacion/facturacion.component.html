@@ -1,165 +1,151 @@
-<div class="cabecera">
-    <h1>Facturación y Carga</h1>
-    <h3>Crea nuevas facturas o sube PDFs para sellar</h3>
-
-    <div class="menu">
-        <div [ngClass]="{'activo': isElaborar}" (click)="cambiarVentana(0)"><mat-icon>receipt</mat-icon>Elaborar Factura</div>
-        <div [ngClass]="{'activo': isCargar}" (click)="cambiarVentana(1)"><mat-icon>upload</mat-icon>Cargar</div>
-    </div>
+<div>
+    <h1>Nueva Factura</h1>
+    <p>Completa los datos para generar una factura</p>
 </div>
-
-
-
-<div class="contenido">
-    <div>
-        <h1>Nueva Factura</h1>
-        <p>Completa los datos para generar una factura</p>
-    </div>
-    <div *ngIf="limiteAlcanzado" class="bloqueo-tarifa">
-        <mat-icon>lock</mat-icon>
-        <h3>Has alcanzado el límite de tu plan ({{infoSuscripcion.usadas}}/{{infoSuscripcion.max}})</h3>
-        <p>Tus facturas se reiniciarán el próximo mes o puedes subir de plan ahora.</p>
-        <button (click)="irAPlanes()">Mejorar Plan</button>
-    </div>
-    <form [formGroup]="facturaForm" *ngIf="!limiteAlcanzado" class="contenedor-factura" autocomplete="off">
-        <div class="seccion-identificacion">
-            <h3>Información Fiscal del Cliente</h3>
-            <div class="grid-fiscal">
-                <div class="izquierda zona-cabecera">
-                    <div formArrayName="cliente">
-                        <div class="dato-cliente">
-                            <label>NIF/CIF Receptor</label>
-                            <input name="nif" formControlName="nif" 
-                                placeholder="A12345678" required>
-                        </div>
-                        <div class="dato-cliente">
-                            <label>Nombre Cliente</label>
-                            <input name="nombre-cliente" formControlName="nombre" placeholder="nombre"/>
-                        </div>
-                        <div class="dato-cliente" formArrayName="direccion_completa">
-                            <label>Dirección</label>
-                            <input name="direccion" formControlName="direccion" placeholder="direccion"/>
-                        </div>
-                        <div class="dato-cliente" formArrayName="direccion_completa">
-                            <label>Codigo Postal</label>
-                            <input name="postal" formControlName="codigo_postal" placeholder="00000"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="medio-izquierda">
-                    <div formArrayName="cliente">
-                        <div class="dato-cliente" formArrayName="direccion_completa">
-                            <label>Localidad</label>
-                            <input name="localidad" formControlName="localidad" placeholder="localidad"/>
-                        </div>
-                        <div class="dato-cliente" formArrayName="direccion_completa">
-                            <label>Provincia</label>
-                            <input name="provincia" formControlName="provincia" placeholder="provincia"/>
-                        </div>
-                        <div class="dato-cliente" formArrayName="direccion_completa">
-                            <label>Pais</label>
-                            <input name="pais" formControlName="pais" placeholder="pais"/>
-                        </div>
-                    </div>
-                </div>
-                <span class="espaciado"></span>
-                <div class="derecha zona-cabecera">
-                    <div>
-                        <label>Código Factura</label>
-                        <input name="codigo"  formControlName="company_id" class="input-readonly">
-                    </div>
-                    <div>
-                        <label>Fecha Emisión</label>
-                        <input name="fecha" type="date" formControlName="fecha_emision">
-                    </div>
-                    <div>
-                        <label>Fecha de Vencimiento</label>
-                        <input name="fechaCad" type="date" formControlName="fecha_vencimiento"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="seccion-conceptos">
-            <div class="header-conceptos">
-            <h3>Conceptos</h3>
-            <button type="button" (click)="agregarLinea()" class="btn-add">
-                <mat-icon>add</mat-icon> Añadir Concepto
-            </button>
-            </div>
-
-            <table>
-            <thead>
-                <tr>
-                <th>Descripción</th>
-                <th>Cant.</th>
-                <th>Und.</th>
-                <th>Precio/U</th>
-                <th>Dto %</th>
-                <th>IVA %</th>
-                <th>Importe</th>
-                <th></th>
-                </tr>
-            </thead>
-            <tbody formArrayName="lineas">
-                <tr *ngFor="let linea of lineas.controls; let i = index" [formGroupName]="i">
-                <td><input [name]="'desc'+i" formControlName="descripcion" placeholder="Servicio..."></td>
-                <td><input [name]="'cant'+i" min="0" type="number" formControlName="cantidad" class="w-50"></td>
-                <td>
-                    <select [name]="'und'+i" formControlName="unidad">
-                    <option value="Und">Und</option>
-                    <option value="H">Horas</option>
-                    <option value="Serv">Servicio</option>
-                    </select>
-                </td>
-                <td><input [name]="'pre'+i" min="0" type="number" formControlName="precio_unitario"></td>
-                <td><input [name]="'dto'+i" min="0" type="number" formControlName="descuento"></td>
-                <td>
-                    <select [name]="'iva'+i" formControlName="iva_porcentaje">
-                    <option [ngValue]="21">21%</option>
-                    <option [ngValue]="10">10%</option>
-                    <option [ngValue]="4">4%</option>
-                    <option [ngValue]="0">Exento</option>
-                    </select>
-                </td>
-                <td class="txt-derecha">
-                    {{ getImporteLinea(i) | number:'1.2-2' }}€
-                </td>
-                <td>
-                    <button (click)="eliminarLinea(i)" class="btn-del"><mat-icon>delete</mat-icon></button>
-                </td>
-                </tr>
-            </tbody>
-            </table>
-        </div>
-
-        <div class="seccion-totales">
-            <div class="totales-grid">
-                <div class="total-row">
-                    <span>Subtotal Sin IVA - Sin Descuento</span>
-                    <span>{{ bruto | number:'1.2-2'}}€</span>
-                </div>
-                <div class="total-row">
-                    <span>Descuento</span>
-                    <span>- {{ descuento | number:'1.2-2'}}€</span>
-                </div>
-                <div class="total-row">
-                    <span>Subtotal (Base Imponible):</span>
-                    <span>{{ subtotal | number:'1.2-2' }}€</span>
-                </div>
-                <div class="total-row">
-                    <span>IVA:</span>
-                    <span class="valor">{{ totalIva | number:'1.2-2' }}€</span>
-                </div>
-                <hr>
-                <div class="total-row total-final">
-                    <span>TOTAL:</span>
-                    <span class="valor">{{ totalFactura | number:'1.2-2' }}€</span>
-                </div>
-            </div>
-        </div>
-        <div class="seccion-amem">
-            <button class="btn-enviar" (click)="submit()" type="submit">Crear y Sellar</button>
-        </div>
-    </form>
+<div *ngIf="limiteAlcanzado" class="bloqueo-tarifa">
+    <mat-icon>lock</mat-icon>
+    <h3>Has alcanzado el límite de tu plan ({{infoSuscripcion.usadas}}/{{infoSuscripcion.max}})</h3>
+    <p>Tus facturas se reiniciarán el próximo mes o puedes subir de plan ahora.</p>
+    <button (click)="irAPlanes()">Mejorar Plan</button>
 </div>
+<form [formGroup]="facturaForm" *ngIf="!limiteAlcanzado" class="contenedor-factura" autocomplete="off">
+    <div class="seccion-identificacion">
+        <h3>Información Fiscal del Cliente</h3>
+        <div class="grid-fiscal">
+            <div class="izquierda zona-cabecera">
+                <div formArrayName="cliente">
+                    <div class="dato-cliente">
+                        <label>NIF/CIF Receptor</label>
+                        <input name="nif" formControlName="nif" 
+                            placeholder="A12345678" required>
+                    </div>
+                    <div class="dato-cliente">
+                        <label>Nombre Cliente</label>
+                        <input name="nombre-cliente" formControlName="nombre" placeholder="nombre"/>
+                    </div>
+                    <div class="dato-cliente" formArrayName="direccion_completa">
+                        <label>Dirección</label>
+                        <input name="direccion" formControlName="direccion" placeholder="direccion"/>
+                    </div>
+                    <div class="dato-cliente" formArrayName="direccion_completa">
+                        <label>Codigo Postal</label>
+                        <input name="postal" formControlName="codigo_postal" placeholder="00000"/>
+                    </div>
+                </div>
+            </div>
+            <div class="medio-izquierda">
+                <div formArrayName="cliente">
+                    <div class="dato-cliente" formArrayName="direccion_completa">
+                        <label>Localidad</label>
+                        <input name="localidad" formControlName="localidad" placeholder="localidad"/>
+                    </div>
+                    <div class="dato-cliente" formArrayName="direccion_completa">
+                        <label>Provincia</label>
+                        <input name="provincia" formControlName="provincia" placeholder="provincia"/>
+                    </div>
+                    <div class="dato-cliente" formArrayName="direccion_completa">
+                        <label>Pais</label>
+                        <input name="pais" formControlName="pais" placeholder="pais"/>
+                    </div>
+                </div>
+            </div>
+            <span class="espaciado"></span>
+            <div class="derecha zona-cabecera">
+                <div>
+                    <label>Código Factura</label>
+                    <input name="codigo"  formControlName="company_id" class="input-readonly">
+                </div>
+                <div>
+                    <label>Fecha Emisión</label>
+                    <input name="fecha" type="date" formControlName="fecha_emision">
+                </div>
+                <div>
+                    <label>Fecha de Vencimiento</label>
+                    <input name="fechaCad" type="date" formControlName="fecha_vencimiento"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="seccion-conceptos">
+        <div class="header-conceptos">
+        <h3>Conceptos</h3>
+        <button type="button" (click)="agregarLinea()" class="btn-add">
+            <mat-icon>add</mat-icon> Añadir Concepto
+        </button>
+        </div>
+
+        <table>
+        <thead>
+            <tr>
+            <th>Descripción</th>
+            <th>Cant.</th>
+            <th>Und.</th>
+            <th>Precio/U</th>
+            <th>Dto %</th>
+            <th>IVA %</th>
+            <th>Importe</th>
+            <th></th>
+            </tr>
+        </thead>
+        <tbody formArrayName="lineas">
+            <tr *ngFor="let linea of lineas.controls; let i = index" [formGroupName]="i">
+            <td><input [name]="'desc'+i" formControlName="descripcion" placeholder="Servicio..."></td>
+            <td><input [name]="'cant'+i" min="0" type="number" formControlName="cantidad" class="w-50"></td>
+            <td>
+                <select [name]="'und'+i" formControlName="unidad">
+                <option value="Und">Und</option>
+                <option value="H">Horas</option>
+                <option value="Serv">Servicio</option>
+                </select>
+            </td>
+            <td><input [name]="'pre'+i" min="0" type="number" formControlName="precio_unitario"></td>
+            <td><input [name]="'dto'+i" min="0" type="number" formControlName="descuento"></td>
+            <td>
+                <select [name]="'iva'+i" formControlName="iva_porcentaje">
+                <option [ngValue]="21">21%</option>
+                <option [ngValue]="10">10%</option>
+                <option [ngValue]="4">4%</option>
+                <option [ngValue]="0">Exento</option>
+                </select>
+            </td>
+            <td class="txt-derecha">
+                {{ getImporteLinea(i) | number:'1.2-2' }}€
+            </td>
+            <td>
+                <button (click)="eliminarLinea(i)" class="btn-del"><mat-icon>delete</mat-icon></button>
+            </td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+
+    <div class="seccion-totales">
+        <div class="totales-grid">
+            <div class="total-row">
+                <span>Subtotal Sin IVA - Sin Descuento</span>
+                <span>{{ bruto | number:'1.2-2'}}€</span>
+            </div>
+            <div class="total-row">
+                <span>Descuento</span>
+                <span>- {{ descuento | number:'1.2-2'}}€</span>
+            </div>
+            <div class="total-row">
+                <span>Subtotal (Base Imponible):</span>
+                <span>{{ subtotal | number:'1.2-2' }}€</span>
+            </div>
+            <div class="total-row">
+                <span>IVA:</span>
+                <span class="valor">{{ totalIva | number:'1.2-2' }}€</span>
+            </div>
+            <hr>
+            <div class="total-row total-final">
+                <span>TOTAL:</span>
+                <span class="valor">{{ totalFactura | number:'1.2-2' }}€</span>
+            </div>
+        </div>
+    </div>
+    <div class="seccion-final">
+        <button class="btn-enviar activo" (click)="submit()" type="submit">Crear y Sellar</button>
+    </div>
+</form>

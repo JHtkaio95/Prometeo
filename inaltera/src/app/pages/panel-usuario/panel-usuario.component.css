@@ -13,10 +13,12 @@
 
 .activar-barra{
     visibility: hidden;
+    
     height:0;
     width:0;
 }
 .boton-activar{
+    cursor: pointer;
     background-color: rgb(255, 255, 255);
     color:rgba(0, 123, 255, 1);
     z-index:91 ;
@@ -41,7 +43,7 @@
 }
 .logo{
     width:100%;
-    background-color: rgba(0, 123, 255, 1);
+    background: linear-gradient(135deg, rgba(0, 123, 255, 1) 0%, rgb(0, 76, 157) 100%);
     width:3.5rem;
     height:3.5rem;
     color:rgb(249, 249, 249);
@@ -208,8 +210,8 @@ circle {
         z-index:90;
         height:100%;
         position:fixed;
-        backdrop-filter:blur(10px);
-        background-color:rgba(255, 255, 255, 0.742);
+        backdrop-filter:blur(7px);
+        background-color:rgba(255, 255, 255, 0.782);
 
         animation:fadeIn ease-in-out 0.3s;
     }

@@ -1,50 +1,62 @@
-<div class="cabecera">
-    <h1>Registro de Facturas</h1>
-    <h3>Consulta y descarga el historial dew tus facturas selladas</h3>
+<div class="zona-filtraje">
+    <h1><mat-icon>filter_alt</mat-icon>Filtros de búsqueda</h1>
+    <h3>Busca por contenido o filtra</h3>
+    <div class="grade">
+        <div class="elemento texto">
+            <mat-icon>search</mat-icon>
+            <input placeholder="Buscar por número o cliente"
+                    [(ngModel)]="textoBusqueda"/>
+        </div>
+        
+        <div class="elemento data" >
+            <input matInput placeholder="Desde">
+        </div>
 
-    <div class="menu">
-        <div [ngClass]="{'activo': isRegistro}">aro</div>
+        <div class="elemento data">
+            <input matInput placeholder="Hasta"/>
+                
+        </div>
     </div>
     <div>
-        <div><mat-icon></mat-icon>Filtros de búsqueda</div>
-        <h3>Busca por contenido o filtra</h3>
+        <button type="submit">Filtrar</button>
     </div>
 </div>
+
 <div class="contenido">
-    <div>
-        <h1></h1>
-        <p></p>
-        <table class="tabela" >
+    <h1></h1>
+    <p></p>
+    <table class="tabela" >
+        <tr>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Número</th>
+            <th>Cliente</th>
+            <th>Total (€)</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        @for(factura of listaFacturas; track factura){
             <tr>
-                <th>Fecha</th>
-                <th>Tipo</th>
-                <th>Número</th>
-                <th>Cliente</th>
-                <th>Total (€)</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                
+                    <td>{{factura.fecha_emision}}</td>
+                    <td>{{factura.tipo_factura}}</td>
+                    <td>{{factura.numero}}</td>
+                    <td>{{factura.datos_cliente.nombre}}</td>
+                    <td>{{factura.importe_total}}</td>
+                    <td>{{factura.estado}}</td>
+                    <td class="espacio-boton">
+                        <button class="funciones">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text w-5 h-5"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
+                        </button>
+                        <button class="funciones">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-code w-4 h-4"><path d="M10 12.5 8 15l2 2.5"></path><path d="m14 12.5 2 2.5-2 2.5"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"></path></svg>
+                        </button>
+                        <button class="funciones">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download w-4 h-4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+                        </button>
+                    </td>
+                
             </tr>
-            @for(factura of listaFacturas; track factura){
-                <tr>
-                    
-                        <td>{{factura.fecha_emision}}</td>
-                        <td>{{factura.tipo_factura}}</td>
-                        <td>{{factura.numero}}</td>
-                        <td>{{factura.datos_cliente.nombre}}</td>
-                        <td>{{factura.importe_total}}</td>
-                        <td>{{factura.estado}}</td>
-                        <td>
-                            <button class="funciones">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text w-5 h-5"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
-                            </button>
-                            <button class="funciones">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-code w-4 h-4"><path d="M10 12.5 8 15l2 2.5"></path><path d="m14 12.5 2 2.5-2 2.5"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"></path></svg>
-                            </button>
-                            <button class="funciones"><mat-icon>download</mat-icon></button>
-                        </td>
-                    
-                </tr>
-            }
-        </table>
-    </div>
+        }
+    </table>
 </div>
