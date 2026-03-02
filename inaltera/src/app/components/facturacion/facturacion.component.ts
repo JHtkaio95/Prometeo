@@ -53,6 +53,7 @@ export class FacturacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkLimites();
+    this.cargarCodFac();
   }
 
   checkLimites() {
@@ -65,8 +66,12 @@ export class FacturacionComponent implements OnInit {
     }
   }
 
+  cargarCodFac() {
+    
+  }
+
   irAPlanes() {
-    this.router.navigateByUrl("/panel");
+    this.router.navigateByUrl("/panel/visor-dt/tarifas");
   }
 
   getNowIso(): string {
@@ -144,6 +149,7 @@ export class FacturacionComponent implements OnInit {
           next: (res) => {
             console.log('✅ Factura procesada:', res);
             alert('Factura guardada con éxito');
+            this.authService.descargarPDF(res.pdf_url);
             this.authService.ActualizarUserSession().subscribe();
           },
           error: (err) => {

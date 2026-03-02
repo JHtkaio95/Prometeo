@@ -32,6 +32,12 @@ export const routes: Routes = [
             }
         ]
     },
+    {
+        path: 'verificar/:hash',
+        loadComponent: () =>
+            import('./components/verificarqr/verificarqr.component')
+                .then(m => m.VerificarqrComponent)
+    },
     {path: 'previsor', component:PrevisorComponent},
     {
         path: 'panel',
@@ -83,10 +89,16 @@ export const routes: Routes = [
                         pathMatch: 'full'
                     },
                     {
-                        path:'facturacion',
+                        path: 'facturacion',
                         loadComponent: () =>
                             import('./components/facturacion/facturacion.component')
                                 .then(m => m.FacturacionComponent)
+                    },
+                    {
+                        path: 'cargarFactura',
+                        loadComponent: () =>
+                            import('./components/cargar-factura/cargar-factura.component')
+                                .then(m => m.CargarFacturaComponent)
                     }
                 ]
             },

@@ -1,0 +1,32 @@
+<div>
+    <h1>Cargar Factura PDF</h1>
+    <p>Sube un PDF de factura existente para añadir el sello criptográfico y código QR</p>
+</div>
+<div class="dragable" *ngIf="!archivo">
+    <div>
+        <div class="caja-icono">
+            <svg class="icono" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-up w-8 h-8 text-muted-foreground"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M12 12v6"></path><path d="m15 15-3-3-3 3"></path></svg>
+        </div>
+        <div>
+            <h2>Arrastra tu PDF aquí</h2>
+            <p class="centralizado">o haz clic para seleccionar un archivo</p>
+        </div>
+        <input id="upload" accept=".pdf" class="seletor-fichero" type="file" (change)="onFileSelected($event)" hidden/>
+        <label for="upload">Seleccionar archivo</label>
+    </div>
+</div>
+<div class="archivo-cargado" *ngIf="archivo">
+    <div class="info-container">
+        <div class="icono-pdf">
+            <mat-icon>insert_drive_file</mat-icon>
+        </div>
+        <div class="detalhes">
+            <h3>{{ nombre }}</h3>
+            <p>{{ tamanio }}</p>
+        </div>
+    </div>
+    <div class="acciones">
+        <button class="btn-cancelar" (click)="cancelar()">cancelar</button>
+        <button class="btn-sellar" (click)="cargarYSellar()"> Cargar y Sellar PDF</button>
+    </div>
+</div>

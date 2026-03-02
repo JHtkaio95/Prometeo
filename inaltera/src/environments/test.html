@@ -1,0 +1,76 @@
+<html>
+<head>
+    <style>
+        body { font-family: 'Helvetica', sans-serif; color: #333; margin: 0; padding: 0; }
+        .invoice-box { max-width: 800px; margin: auto; font-size: 14px; }
+        .header { background: #f8f9fa; padding: 20px; border-bottom: 2px solid #3f51b5; }
+        .col-2 { width: 50%; float: left; }
+        .clear { clear: both; }
+        table { width: 100%; line-height: inherit; text-align: left; border-collapse: collapse; }
+        table th { background: #eee; padding: 10px; border-bottom: 1px solid #ddd; }
+        table td { padding: 10px; border-bottom: 1px solid #eee; }
+        .total { text-align: right; font-weight: bold; font-size: 18px; margin-top: 20px; }
+        .footer-legal { margin-top: 50px; font-size: 10px; color: #777; border-top: 1px solid #eee; padding-top: 10px; }
+        .hash-box { word-break: break-all; font-family: monospace; background: #f4f4f4; padding: 5px; }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <div class="header">
+            <div class="col-2">
+                <h1 style="color: #3f51b5; margin: 0;">FACTURA</h1>
+                <p>Nº: <strong><?php echo $factura['serie'] . '-' . $factura['numero']; ?></strong></p>
+            </div>
+            <div class="col-2" style="text-align: right;">
+                <p>Fecha: <?php echo $factura['fecha_emision']; ?></p>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div style="padding: 20px;">
+            <div class="col-2">
+                <strong>EMISOR:</strong><br>
+                NIF: <?php echo $nif_emisor; ?><br>
+                <?php echo $input['datos_emisor']['nombre'] ?? 'Mi Empresa S.L.'; ?>
+            </div>
+            <div class="col-2">
+                <strong>CLIENTE:</strong><br>
+                NIF: <?php echo $input['cliente']['nif']; ?><br>
+                <?php echo $input['cliente']['nombre']; ?>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Cant.</th>
+                    <th>Precio</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($input['lineas'] as $l): ?>
+                <tr>
+                    <td><?php echo $l['descripcion']; ?></td>
+                    <td><?php echo $l['cantidad']; ?></td>
+                    <td><?php echo number_format($l['precio_unitario'], 2); ?>€</td>
+                    <td><?php echo number_format($l['importe'], 2); ?>€</td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <div class="total">
+            Total Factura: <?php echo number_format($total_final, 2); ?>€
+        </div>
+
+        <div class="footer-legal">
+            <p><strong>Huella Digital de Seguridad (VeriFactu):</strong></p>
+            <div class="hash-box"><?php echo $hash_verificacion; ?></div>
+            <p>Este documento es una representación gráfica de un registro digital inalterable.</p>
+        </div>
+    </div>
+</body>
+</html>

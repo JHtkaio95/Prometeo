@@ -5,7 +5,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .activo, .blue-button, .logo {
     transition:0.1s;
-    background: linear-gradient(135deg, rgba(0, 123, 255, 1) 0%, rgb(0, 92, 190) 100%);
+    background: linear-gradient(135deg, rgba(0, 123, 255, 1) 0%, rgb(0, 80, 167) 100%);
     color:white;
 }
 

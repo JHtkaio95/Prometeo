@@ -17,6 +17,7 @@ export class UsoSuscripcionComponent implements OnInit, OnDestroy{
   maximo: number = 0;
   porcentaje: number = 0;
   nombreTarifa: string= '';
+  quedan: number = 0;
 
   private userSub: Subscription | undefined;
 
@@ -29,6 +30,7 @@ export class UsoSuscripcionComponent implements OnInit, OnDestroy{
       if(user) {
         this.usadas = user.facturas_usadas || 0;
         this.maximo = user.limite_facturas || 1;
+        this.quedan = this.maximo - this.usadas < 0 ? 0 : this.maximo - this.usadas;
         this.nombreTarifa = user.nombre_tarifa || 'Gratuita';
         this.porcentaje = Math.min((this.usadas / this.maximo) * 100, 100);
       }
@@ -45,6 +47,7 @@ export class UsoSuscripcionComponent implements OnInit, OnDestroy{
     const user = JSON.parse(sessionStorage.getItem("USER_Data") || '{}');
     this.usadas = user.facturas_usadas || 0;
     this.maximo = user.limite_facturas || 1;
+    this.quedan = this.maximo - this.usadas < 0 ? 0 : this.maximo - this.usadas;
     this.nombreTarifa = user.tarifa || 'Gratuita';
     this.porcentaje = Math.min((this.usadas / this.maximo) * 100, 100);
 
@@ -58,7 +61,8 @@ export class UsoSuscripcionComponent implements OnInit, OnDestroy{
   get colorEstado() {
     if (this.porcentaje < 70) return '#25c92b';
     if (this.porcentaje < 90) return '#ffeb3b';
-    return '#f44336';
+    if (this.porcentaje < 100) return '#ffa33b';
+    return '#f43636';
   }
 
 }

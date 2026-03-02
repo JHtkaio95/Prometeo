@@ -7,6 +7,7 @@ export interface AuthFactura {
     QR_URL: string;
     estado: string;
     id_usuario: number;
+    pdf_url: string;
 
     tipo: string;
     numero: string;
@@ -24,6 +25,7 @@ export class Factura {
         public QR_URL: string,
         public estado: string, 
         public id_usuario: number,
+        public pdf_url: string,
 
         public tipo: string,
         public numero: string,

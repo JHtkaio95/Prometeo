@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of, BehaviorSubject } from 'rxjs';
@@ -34,8 +34,9 @@ export class AuthService {
   private empresa = this.buscarEmpresaParaUsuario();
   public user$ = this.userSubject.asObservable();
 
-  apiURLUsers = environment.apiUrl;
+  apiURLUsers = environment.apiUrlProme;
   apiURLUsersLocal = environment.apiUrlLocal;
+  apiURLUsersProme = environment.apiUrlProme;
   apiURLGoogleLogin = environment.apiUrl + 'GoogleLogin';
 
   constructor(
@@ -55,6 +56,11 @@ export class AuthService {
     return this.http.post<AuthFactura>(`${this.apiURLUsers}/registrarFactura.php`, datos);
   }
 
+  descargarPDF(ruta: string) {
+    const urlCompleta = `${this.apiURLUsers}/${ruta}`;
+    window.open(urlCompleta, '_blank');
+  }
+
   cambiarTarifa(tarifa: number): Observable<any> {
     return this.http.post<any>(`${this.apiURLUsers}/cambiarTarifa.php`, {tarifa});
   }
@@ -70,8 +76,17 @@ export class AuthService {
       );
   }
 
+  obtenerFacturaPorHash(hash: string): Observable<any> {
+    const params = new HttpParams().set('hash', hash);
+    return this.http.get<any>(`${this.apiURLUsers}/obtenerFacturaPHash.php`, { params });
+  }
+
   buscarEmpresaParaUsuario(): Observable<any> {
     return this.http.get<any>(`${this.apiURLUsers}/getEmpresa.php`);
+  }
+
+  getCodFactura(): Observable<any> {
+    return this.http.get<any>(`${this.apiURLUsers}/getCodFactura.php`);
   }
 
   getFacturas(): Observable<any[]> {
