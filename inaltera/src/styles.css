@@ -11,6 +11,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .activo:hover, .blue-button:hover {
     transition:0.1s;
+    /* filter: brightness(110%); */
     filter: invert();
 }
 .cabecera{

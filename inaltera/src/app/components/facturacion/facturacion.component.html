@@ -52,8 +52,17 @@
             <span class="espaciado"></span>
             <div class="derecha zona-cabecera">
                 <div>
-                    <label>Código Factura</label>
-                    <input name="codigo"  formControlName="company_id" class="input-readonly">
+                    
+                    <div>
+                        <label>Código Factura</label>
+                        <input name="codigo"  [value]="facturaForm.get('serie')?.value + '-' + facturaForm.get('numero')?.value"
+                         class="input-readonly" readonly>
+                         <input type="hidden" formControlName="numero"/>
+                    </div>
+                    <div>
+                        <label>Serie</label>
+                        <input formControlName="serie" (change)="cargarCodFac()"/>
+                    </div>
                 </div>
                 <div>
                     <label>Fecha Emisión</label>

@@ -24,7 +24,7 @@ import { Router } from '@angular/router';
 export class FacturacionComponent implements OnInit {
   facturaForm = this.fb.group({
     company_id: [1],
-    serie: ['2026-A', Validators.required],
+    serie: ['', Validators.required],
     numero: [null, Validators.required],
     fecha_emision: [this.getNowIso()],
     fecha_vencimiento: [this.getNowIso()],
@@ -52,6 +52,13 @@ export class FacturacionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const anioActual = new Date().getFullYear();
+    const serieSugerida = `${anioActual}-A`;
+
+    this.facturaForm.patchValue({
+      serie: serieSugerida
+    });
+
     this.checkLimites();
     this.cargarCodFac();
   }
@@ -67,7 +74,12 @@ export class FacturacionComponent implements OnInit {
   }
 
   cargarCodFac() {
-    
+    const serieActual = this.facturaForm.get('serie')?.value || '';
+    this.authService.getCodFactura(serieActual).subscribe(res => {
+      this.facturaForm.patchValue({
+        numero: res.siguiente_numero
+      });
+    });
   }
 
   irAPlanes() {

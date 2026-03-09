@@ -1,32 +1,66 @@
 <div class="verificar-container">
   <mat-card class="result-card">
-    <div *ngIf="cargando" class="loading">
-      <mat-spinner diameter="50"></mat-spinner>
-      <p>Validando integridad en el registro inalterable...</p>
+    
+    <div class="header-brand">
+      <div class="logotipo">
+        <div class="logo">
+          <mat-icon class="icono">arrow_outward</mat-icon>
+        </div>
+        <div class="menu-logo">
+          <h3>INALTERA</h3>
+          <span>Tu solución NO-VERI*FACTU</span>
+        </div>
+      </div>
     </div>
 
-    <div *ngIf="factura && !cargando" class="success-content">
-      <mat-icon class="verified-icon">check_circle</mat-icon>
+    <mat-divider></mat-divider>
+
+    <div *ngIf="cargando" class="state-container loading">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Consultando registro inalterable...</p>
+    </div>
+
+    <div *ngIf="factura && !cargando" class="state-container success-content">
+      <div class="icon-circle success">
+        <mat-icon class="status-icon">check_circle</mat-icon>
+      </div>
       <h1>Factura Legalizada</h1>
-      <p class="subtitle">Este documento es íntegro y original.</p>
+      <p class="subtitle">Este documento ha sido verificado y es íntegro.</p>
       
-      <mat-divider></mat-divider>
-      
-      <div class="details">
-        <p><strong>Emisor:</strong> {{ factura.NIF_emisor }}</p>
-        <p><strong>Nº Factura:</strong> {{ factura.serie }}-{{ factura.numero }}</p>
-        <p><strong>Total:</strong> {{ factura.importe_total | currency:'EUR' }}</p>
+      <div class="details-box">
+        <div class="detail-row">
+          <span class="label">Emisor NIF</span>
+          <span class="value">{{ factura.NIF }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Serie y Número</span>
+          <span class="value">{{ factura.serie }}-{{ factura.numero }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Importe Total</span>
+          <span class="value total">{{ factura.importe_total | currency:'EUR' }}</span>
+        </div>
       </div>
 
-      <button mat-raised-button color="primary" (click)="verPDF()">
-        <mat-icon>picture_as_pdf</mat-icon> DESCARGAR PDF ORIGINAL
+      <button mat-flat-button color="primary" class="download-btn" (click)="verPDF()">
+        <mat-icon>picture_as_pdf</mat-icon>
+        DESCARGAR ORIGINAL
       </button>
     </div>
 
-    <div *ngIf="!factura && !cargando" class="error-content">
-      <mat-icon color="warn">error</mat-icon>
-      <h1>Error de Verificación</h1>
-      <p>No se ha encontrado ningún registro que coincida con este código de seguridad.</p>
+    <div *ngIf="!factura && !cargando" class="state-container error-content">
+      <div class="icon-circle error">
+        <mat-icon class="status-icon">report_problem</mat-icon>
+      </div>
+      <h1>Fallo de Verificación</h1>
+      <p>El código de seguridad no corresponde a ninguna factura registrada en el sistema inalterable.</p>
+      
+      <button mat-stroked-button color="warn" class="retry-btn" onclick="window.location.reload()">
+        REINTENTAR ESCANEO
+      </button>
     </div>
+
   </mat-card>
+  
+  <p class="footer-text">© 2024 Inaltera Security Systems - Verificación Oficial</p>
 </div>

@@ -34,7 +34,7 @@ export class AuthService {
   private empresa = this.buscarEmpresaParaUsuario();
   public user$ = this.userSubject.asObservable();
 
-  apiURLUsers = environment.apiUrlProme;
+  apiURLUsers = environment.apiUrl;
   apiURLUsersLocal = environment.apiUrlLocal;
   apiURLUsersProme = environment.apiUrlProme;
   apiURLGoogleLogin = environment.apiUrl + 'GoogleLogin';
@@ -54,6 +54,19 @@ export class AuthService {
 
   crearFactura(datos: any): Observable<AuthFactura>{
     return this.http.post<AuthFactura>(`${this.apiURLUsers}/registrarFactura.php`, datos);
+  }
+
+  sellarFacturaExterna(archivo: File, datos: any): Observable<any> {
+    const formData = new FormData();
+    formData.append('archivo', archivo);
+    formData.append('nif_emisor', datos.nif_emisor);
+    formData.append('nif', datos.nif);
+    formData.append('nombre', datos.nombre);
+    formData.append('numero', datos.numero);
+    formData.append('fecha', datos.fecha);
+    formData.append('total', datos.total);
+
+    return this.http.post(`${this.apiURLUsers}/sellarExterno.php`, formData);
   }
 
   descargarPDF(ruta: string) {
@@ -85,8 +98,9 @@ export class AuthService {
     return this.http.get<any>(`${this.apiURLUsers}/getEmpresa.php`);
   }
 
-  getCodFactura(): Observable<any> {
-    return this.http.get<any>(`${this.apiURLUsers}/getCodFactura.php`);
+  getCodFactura(serie: string): Observable<any> {
+    const params = new HttpParams().set('serie', serie);
+    return this.http.get<any>(`${this.apiURLUsers}/getCodFactura.php`, { params });
   }
 
   getFacturas(): Observable<any[]> {
@@ -179,6 +193,9 @@ export class AuthService {
   }
 
   logout(): void {
+    const user = JSON.parse(sessionStorage.getItem("USER_Data") || '{}');
+
+    this.http.post(`${this.apiURLUsers}/logout.php`, user.id_usuario);
     this.removeStorageItem(this.TOKEN_KEY);
     this.removeStorageItem(this.USER_DATA_KEY);
     localStorage.removeItem("loged");

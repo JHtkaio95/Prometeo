@@ -1,32 +1,115 @@
-<div>
-    <h1>Cargar Factura PDF</h1>
-    <p>Sube un PDF de factura existente para añadir el sello criptográfico y código QR</p>
-</div>
-<div class="dragable" *ngIf="!archivo">
+<div class="poderoso">
     <div>
-        <div class="caja-icono">
-            <svg class="icono" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-up w-8 h-8 text-muted-foreground"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M12 12v6"></path><path d="m15 15-3-3-3 3"></path></svg>
-        </div>
+        <h1>Cargar Factura PDF</h1>
+        <p>Sube un PDF de factura existente para añadir el sello criptográfico y código QR</p>
+    </div>
+    <div class="dragable boxer" *ngIf="!archivo">
         <div>
-            <h2>Arrastra tu PDF aquí</h2>
-            <p class="centralizado">o haz clic para seleccionar un archivo</p>
-        </div>
-        <input id="upload" accept=".pdf" class="seletor-fichero" type="file" (change)="onFileSelected($event)" hidden/>
-        <label for="upload">Seleccionar archivo</label>
-    </div>
-</div>
-<div class="archivo-cargado" *ngIf="archivo">
-    <div class="info-container">
-        <div class="icono-pdf">
-            <mat-icon>insert_drive_file</mat-icon>
-        </div>
-        <div class="detalhes">
-            <h3>{{ nombre }}</h3>
-            <p>{{ tamanio }}</p>
+            <div class="caja-icono">
+                <svg class="icono" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-up w-8 h-8 text-muted-foreground"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M12 12v6"></path><path d="m15 15-3-3-3 3"></path></svg>
+            </div>
+            <div>
+                <h2>Arrastra tu PDF aquí</h2>
+                <p class="centralizado">o haz clic para seleccionar un archivo</p>
+            </div>
+            <input id="upload" accept=".pdf" class="seletor-fichero" type="file" (change)="onFileSelected($event)" hidden/>
+            <label class="upload" for="upload">Seleccionar archivo</label>
         </div>
     </div>
-    <div class="acciones">
-        <button class="btn-cancelar" (click)="cancelar()">cancelar</button>
-        <button class="btn-sellar" (click)="cargarYSellar()"> Cargar y Sellar PDF</button>
+    <div class="archivo-cargado boxer" *ngIf="archivo">
+        <div class="info-container">
+            <div class="icono-pdf">
+                <mat-icon>insert_drive_file</mat-icon>
+            </div>
+            <div class="detalhes">
+                <h3>{{ nombre }}</h3>
+                <p>{{ tamanio }}</p>
+            </div>
+        </div>
+        <div class="acciones">
+            <button class="btn-cancelar" (click)="cancelar()">cancelar</button>
+            <button class="btn-sellar" (click)="abrirForm()"> Cargar y Sellar PDF</button>
+        </div>
+    </div>
+
+    <div class="c-form" *ngIf="isForm">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+            <h3>Detalles del Registro</h3>
+            <button class="close-btn" (click)="closeForm()">
+                <mat-icon>close</mat-icon>
+            </button>
+            </div>
+
+            <p class="subtitle">Confirma los datos del documento para generar el sello inalterable.</p>
+
+            <form [formGroup]="uploadForm" (ngSubmit)="cargarYSellar()">
+                <div class="form-grid">
+                    <div class="form-elemento">
+                        <label>NIF/CIF Cliente</label>
+                        <input formControlName="nif" placeholder="A12345678" 
+                            [class.input-error]="uploadForm.get('nif')?.invalid && uploadForm.get('nif')?.touched" />
+
+                        <span class="error-text" *ngIf="uploadForm.get('nif')?.errors?.['required'] && uploadForm.get('nif')?.touched">
+                            El NIF es obligatorio
+                        </span>
+                        <span class="error-text" *ngIf="uploadForm.get('nif')?.errors?.['pattern'] && uploadForm.get('nif')?.touched">
+                            Formato de NIF inválido (Ej: A12345678)
+                        </span>
+                    </div>
+
+                    <div class="form-elemento">
+                        <label>Nombre Cliente</label>
+                        <input formControlName="nombre" placeholder="Nombre completo"
+                            [class.input-error]="uploadForm.get('nombre')?.invalid && uploadForm.get('nombre')?.touched"/>
+                        
+                        <span class="error-text" *ngIf="uploadForm.get('nombre')?.invalid && uploadForm.get('nombre')?.touched">
+                            El nombre es necesario para el registro
+                        </span>
+                    </div>
+
+                    <div class="form-elemento">
+                        <label>Nº Factura</label>
+                        <input formControlName="numero" placeholder="FAC-001" 
+                            [class.input-error]="uploadForm.get('numero')?.invalid && uploadForm.get('numero')?.touched"/>
+                        
+                        <span class="error-text" *ngIf="uploadForm.get('numero')?.errors?.['required'] && uploadForm.get('numero')?.touched">
+                            Debes indicar el numero de serie de la factura
+                        </span>
+                    </div>
+
+                    <div class="form-elemento">
+                        <label>Fecha Emisión</label>
+                        <input type="date" formControlName="fecha"
+                            [class.input-error]="uploadForm.get('fecha')?.invalid && uploadForm.get('fecha')?.touched"/>
+
+                        <span class="error-text" *ngIf="uploadForm.get('fecha')?.errors?.['required'] && uploadForm.get('fecha')?.touched">
+                            La Fecha de Emisión es inválida
+                        </span>
+                    </div>
+
+                    <div class="form-elemento full-width">
+                        <label>Importe Total (€)</label>
+                        <input type="number" formControlName="total" placeholder="0.00" step="0.01"
+                            [class.input-error]="uploadForm.get('total')?.invalid && uploadForm.get('total')?.touched"/>
+
+                        <span class="error-text" *ngIf="uploadForm.get('total')?.errors?.['required'] && uploadForm.get('total')?.touched">
+                            Debes indicar el total de la factura
+                        </span>
+                        <span class="error-text" *ngIf="uploadForm.get('total')?.errors?.['min'] && uploadForm.get('total')?.touched">
+                            El importe no puede ser negativo
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" (click)="closeForm()">Cancelar</button>
+                    <button type="submit" class="btn-submit" [disabled]="uploadForm.invalid">
+                    <mat-icon>security</mat-icon> Generar Sello
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

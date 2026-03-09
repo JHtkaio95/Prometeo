@@ -1,3 +1,7 @@
+.poderoso{
+    position: relative;
+    min-height: 470px;
+}
 p {
     color:gray;
 }
@@ -42,7 +46,7 @@ svg{
 .centralizado {
     text-align: center;
 }
-label {
+.upload {
     transition:0.2s;
     border:1px solid rgb(203, 203, 203);
     border-radius: 5px;
@@ -51,9 +55,126 @@ label {
     padding:1rem;
     background-color:rgb(233, 233, 233);
 }
-label:hover {
+.upload:hover {
     transition:0.2s;
     background-color: rgb(226, 240, 255);
     color:rgba(0, 123, 255, 1);
     cursor: pointer;
+}
+
+.c-form {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.modal-header h3 { margin: 0; color: #1a237e; font-size: 1.5rem; }
+
+.subtitle { color: #666; font-size: 0.9rem; margin-bottom: 20px; }
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.full-width { grid-column: span 2; }
+
+.form-elemento label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 5px;
+}
+
+.form-elemento input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.form-elemento input:focus { border-color: #1a237e; box-shadow: 0 0 0 2px rgba(26, 35, 126, 0.1); }
+
+.form-actions {
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn-submit {
+    flex: 2;
+    background: #1a237e;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    flex: 1;
+    background: #f1f1f1;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
+.error-text {
+    color: #d32f2f;
+    font-size: 0.7rem;
+    margin-top: 4px;
+    font-weight: 500;
+    display: block;
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* Borde rojo para el input cuando falla */
+.input-error {
+    border: 1.5px solid #d32f2f !important;
+    background-color: #fff8f8;
+}
+
+/* Animación sutil para que el error no aparezca de golpe */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilo para el botón deshabilitado */
+.btn-submit:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    filter: grayscale(1);
 }
