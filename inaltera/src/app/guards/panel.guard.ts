@@ -9,7 +9,7 @@ export const panelGuard: CanActivateFn = (route, state) => {
   if(loged){
     return true;
   } else {
-    window.alert("Inicia sesión o Registrate con nosotros.");
+    // window.alert("Inicia sesión o Registrate con nosotros.");
     router.navigate(['/auth']);
     return false;
   }

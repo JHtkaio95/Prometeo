@@ -34,14 +34,63 @@
                 </li>
             </ul>
         </div>
-        <div class="energy-container">
-            <app-uso-suscripcion tipo="circulo"></app-uso-suscripcion>
+
+        <div class="seccion-controles">
+            <mat-slide-toggle *ngIf="esAdmin" (change)="isAdminBar = !isAdminBar" class="toggle-admin">
+                Panel Admin
+            </mat-slide-toggle>
+
+            <div class="energy-container">
+                <app-uso-suscripcion tipo="circulo"></app-uso-suscripcion>
+            </div>
         </div>
+
+
+        <div class="admin-sidebar-content" *ngIf="isAdminBar">
+            <div class="admin-header-sep">
+                <mat-icon>admin_panel_settings</mat-icon>
+                <span>Control Maestro</span>
+            </div>
+
+            <section class="admin-section">
+                <h4>Navegación</h4>
+                <nav class="admin-nav">
+                <a routerLink="/admin/usuarios"><mat-icon>people</mat-icon> Gestión Usuarios</a>
+                <a routerLink="/admin/logs"><mat-icon>history</mat-icon> Auditoría Global</a>
+                <a routerLink="/admin/blockchain"><mat-icon>Account_tree</mat-icon> Estado Red</a>
+                </nav>
+            </section>
+
+            <section class="admin-section">
+                <h4>Mirador Manual</h4>
+                <div class="quick-action-inline">
+                    <input type="number" [(ngModel)]="idBusqueda" placeholder="ID User">
+                    <button class="btn-mini-neon" (click)="ejecutarMiradorManual(idBusqueda)">Lanzar</button>
+                </div>
+                
+                <div class="mantenimiento-box">
+                    <mat-checkbox [(ngModel)]="modoMantenimiento" (change)="toggleMantenimiento()">
+                        Mantenimiento
+                    </mat-checkbox>
+                </div>
+            </section>
+
+            <section class="admin-section">
+                <h4>Vigilante</h4>
+                <app-uso-seguridad tipo="ojo"></app-uso-seguridad>
+                
+                <button (click)="refrescarAuditoria()">Verificar Ahora</button>
+            </section>
+        </div>
+
+
         <span class="espaciado"></span>
         <div class="pie-barra">
             <hr/>
-            <div>Conectado como</div>
-            <div class="correo-usuario">{{email}}</div>
+            <div class="info-user">
+                <small>Conectado como</small>
+                <div class="correo-usuario">{{email}}</div>
+            </div>
             <div class="logout" (click)="logout()"><mat-icon>logout</mat-icon>Cerrar Sesión</div>
         </div>
     </div>

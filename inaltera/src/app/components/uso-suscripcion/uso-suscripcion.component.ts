@@ -58,6 +58,10 @@ export class UsoSuscripcionComponent implements OnInit, OnDestroy{
     return circuferencia - (this.porcentaje / 100) * circuferencia;
   }
 
+  get filtroEstado(): string {
+    return `drop-shadow(0 0 10px ${this.colorEstado})`;
+  }
+
   get colorEstado() {
     if (this.porcentaje < 70) return '#25c92b';
     if (this.porcentaje < 90) return '#ffeb3b';

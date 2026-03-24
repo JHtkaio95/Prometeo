@@ -5,7 +5,9 @@
       <circle class="fondo" cx="75" cy="75" r="40"></circle>
       <circle class="progreso" cx="75" cy="75" r="40"
               [style.stroke-dashoffset]="strokeOffset"
-              [style.stroke]="colorEstado"></circle>
+              [style.stroke]="colorEstado"
+              [style.filter]="filtroEstado"
+              ></circle>
     </svg>
     <div class="info-central">
       <span class="numero">{{ usadas }}</span>

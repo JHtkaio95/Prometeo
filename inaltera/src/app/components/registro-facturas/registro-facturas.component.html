@@ -27,6 +27,34 @@
             <mat-icon>filter_list_off</mat-icon>
         </button>
     </div>
+
+    <div class="header-registro">
+        <h1>Mis Facturas</h1>
+        <app-uso-seguridad tipo="banner"></app-uso-seguridad>
+    </div>
+
+    <!-- <div class="contenedor-registro">
+  
+        <div class="blockchain-status-banner" [ngClass]="{'safe': cadenaIntegra, 'danger': !cadenaIntegra}">
+            <div class="status-content">
+                <mat-icon *ngIf="auditando" class="spin">sync</mat-icon>
+                <mat-icon *ngIf="!auditando && cadenaIntegra">verified_user</mat-icon>
+                <mat-icon *ngIf="!auditando && !cadenaIntegra">gpp_maybe</mat-icon>
+            
+                <div class="status-text">
+                    <h4 *ngIf="auditando">Verificando integridad de tus datos...</h4>
+                    <h4 *ngIf="!auditando && cadenaIntegra">Historial Protegido por Blockchain</h4>
+                    <h4 *ngIf="!auditando && !cadenaIntegra">¡Alerta de Seguridad! Inconsistencia detectada</h4>
+                    <p>{{ !cadenaIntegra ? 'Tus facturas muestran una alteración. Contacta a soporte.' : 'Tus registros son inmutables y están verificados.' }}</p>
+                </div>
+            </div>
+            <div class="mini-eye" *ngIf="!cadenaIntegra">
+                <div class="pulsing-red-dot"></div>
+            </div>
+        </div>
+        <table> ... </table>
+    </div>
+    <button (click)="verificarSeguridad()">TESTANDOooo</button> -->
 </div>
 
 <div class="contenido">

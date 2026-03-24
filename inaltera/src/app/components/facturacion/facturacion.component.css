@@ -1,3 +1,134 @@
+/* Cabecera */
+.header-section {
+    margin-bottom: 2rem;
+}
+
+.title {
+    color: #1a1f36;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: #4f566b;
+    font-size: 1rem;
+}
+
+/* Tarjeta de Bloqueo */
+.upgrade-card {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #e3e8ee;
+    border-radius: 16px;
+    padding: 2rem;
+    gap: 2rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    max-width: 700px;
+    margin: 2rem 0;
+}
+
+/* Iconos y Decoración */
+.upgrade-icon {
+    position: relative;
+    background: #f4f7fe;
+    color: #007bff;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.upgrade-icon mat-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+}
+
+.lock-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background: #ef4444;
+    color: white;
+    border-radius: 50%;
+    padding: 4px;
+    display: flex;
+    border: 3px solid white;
+}
+
+.lock-badge mat-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+}
+
+/* Contenido y Barra de Progreso */
+.upgrade-content h3 {
+    color: #1a1f36;
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+}
+
+.progress-container {
+    background: #f4f7fe;
+    border-radius: 10px;
+    height: 8px;
+    width: 100%;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background: #ef4444; /* Rojo porque está lleno */
+    height: 100%;
+    border-radius: 10px;
+}
+
+.info-text {
+    font-size: 0.9rem;
+    color: #697386;
+    margin-bottom: 1.5rem;
+}
+.input-error {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 5px rgba(239, 68, 68, 0.3);
+}
+.error-text {
+    color: #f87171;
+    font-size: 0.7rem;
+    margin-top: 4px;
+    display: block;
+}
+input:disabled {
+    background: #1e293b;
+    color: #64748b;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Botón con Transición */
+.btn-upgrade {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-upgrade:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+}
+
+
+
+
 
 .seccion-identificacion{
     margin-bottom:5rem;

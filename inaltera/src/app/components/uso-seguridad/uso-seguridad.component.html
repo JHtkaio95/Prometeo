@@ -1,0 +1,55 @@
+<div class="contenedor-uso-seguridad" *ngIf="seguridad$ | async as seg">
+  
+  <div *ngIf="tipo === 'ojo'" class="modo-ojo">
+    <div class="eye-wrapper" 
+         [attr.data-estado]="seg.auditando ? 'buscando' : (seg.integro ? 'ok' : 'fraude')"
+         [ngClass]="{'modo-idle': !seguirRaton, 'modo-follow': seguirRaton}">
+      
+      <svg viewBox="0 0 100 60" class="neon-eye">
+        <defs>
+          <filter id="neonGlow">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          <clipPath id="eyeClip">
+            <path d="M10,30 C20,10 80,10 90,30 C80,50 20,50 10,30 Z" class="eye-mask-path" />
+          </clipPath>
+        </defs>
+        
+        <path d="M10,30 C20,10 80,10 90,30 C80,50 20,50 10,30 Z" class="eye-lid" />
+        
+        <g class="iris-group" #irisGroup clip-path="url(#eyeClip)">
+          <circle cx="50" cy="30" r="12" class="iris" />
+          <circle cx="55" cy="25" r="3" class="iris-brillo" />
+        </g>
+      </svg>
+
+    </div>
+    <mat-checkbox *ngIf="mostrarCheck" [(ngModel)]="seguirRaton" class="check-neon">
+      <small>Seguir Puntero</small>
+    </mat-checkbox>
+  </div>
+
+  <div *ngIf="tipo === 'banner'" 
+       class="modo-banner" 
+       [ngClass]="{'safe': seg.integro && !seg.auditando, 'danger': !seg.integro, 'loading': seg.auditando}">
+    
+    <div class="banner-content">
+      <mat-icon class="icon-status">
+        {{ seg.auditando ? 'sync' : (seg.integro ? 'verified_user' : 'gpp_maybe') }}
+      </mat-icon>
+      
+      <div class="txt">
+        <strong>{{ seg.auditando ? 'Auditando Red...' : (seg.integro ? 'Blockchain Íntegro' : '¡Fraude Detectado!') }}</strong>
+        <small *ngIf="seg.ultimaRevision">Último check: {{ seg.ultimaRevision | date:'HH:mm:ss' }}</small>
+      </div>
+    </div>
+
+    <div class="scan-line" *ngIf="seg.auditando"></div>
+  </div>
+
+</div>

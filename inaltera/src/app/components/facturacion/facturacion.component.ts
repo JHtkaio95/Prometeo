@@ -7,6 +7,7 @@ import { ReactiveFormsModule, FormArray, FormBuilder, FormGroup, FormsModule, Va
 import { AuthService } from '../../services/auth.service';
 import { distinctUntilChanged, filter, debounceTime, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
+import { TalkerService } from '../../services/talker.service';
 
 @Component({
   selector: 'app-facturacion',
@@ -31,10 +32,10 @@ export class FacturacionComponent implements OnInit {
     tipo_factura: ['ORDINARIA'],
     cliente: this.fb.group({
       nombre: ['', Validators.required],
-      nif: ['', Validators.required],
+      nif: ['', [Validators.required, Validators.pattern(/^[0-9XYZ][0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKE]$/i)]],
       direccion_completa: this.fb.group({
         direccion: [''],
-        codigo_postal: [''],
+        codigo_postal: ['', [Validators.pattern(/^[0-9]{5}$/)]],
         localidad: [''],
         provincia: [''],
         pais: ['']
@@ -43,11 +44,16 @@ export class FacturacionComponent implements OnInit {
     lineas: this.fb.array([])
   });
   
-  
+
   limiteAlcanzado: boolean = false;
   infoSuscripcion = { usadas: 0, max: 0};
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router){
+  constructor(
+    private fb: FormBuilder, 
+    private authService: AuthService, 
+    private router: Router,
+    private talker: TalkerService
+  ){
     this.agregarLinea();
   }
 
@@ -95,22 +101,41 @@ export class FacturacionComponent implements OnInit {
 
   get lineas() {return this.facturaForm.get('lineas') as FormArray; }
 
+  esVerificado(): boolean {
+    return this.authService.isVerified();
+  }
 
   agregarLinea() {
     const linea = this.fb.group ({
-      descripcion: '',
-      cantidad: 1,
-      unidad: 'Und',
-      precio_unitario: 0,
-      descuento: 0,
-      iva_porcentaje: 21,
-      importe: 0
+      descripcion: ['', Validators.required],
+      cantidad: [1, [Validators.required, Validators.min(1)]],
+      unidad: ['Unidad'],
+      precio_unitario: [0, [Validators.required, Validators.min(0)]],
+      descuento: [0, [Validators.min(0), Validators.max(100)]],
+      iva_porcentaje: [21],
+      importe: [0]
     });
+
+    linea.get('unidad')?.valueChanges.subscribe(unidad =>{
+      const cantControl = linea.get('cantidad');
+      if(unidad === 'Servicio') {
+        cantControl?.setValue(1);
+        cantControl?.disable();
+      } else {
+        cantControl?.enable();
+      }
+    });
+
     this.lineas.push(linea);
   }
   addLinea() { this.lineas.push(this.agregarLinea());}
 
   submit() {
+    if(this.facturaForm.invalid) {
+      this.talker.notificarExitoSnack("Formulario incimpleto o con errores", "error");
+      return;
+    }
+
     const userDataString = sessionStorage.getItem("USER_Data");
 
     for(let i = 0; i < this.lineas.length; i++){
@@ -134,6 +159,7 @@ export class FacturacionComponent implements OnInit {
         const provicincia_emisor = empresaData['provincia'];
         const pais_emisor = empresaData['pais'];
         const telefono_emisor = empresaData['telefono_empresarial'];
+        const descuento_total = this.descuento;
         
         const datos_emisor = [
           id_usuario,
@@ -151,7 +177,8 @@ export class FacturacionComponent implements OnInit {
         const payload = {
           ...this.facturaForm.value,
           datos_emisor,
-          nif_emisor
+          nif_emisor,
+          descuento_total
         };
 
         console.log("🐦: Começo");
@@ -160,12 +187,13 @@ export class FacturacionComponent implements OnInit {
         this.authService.crearFactura(payload).subscribe({
           next: (res) => {
             console.log('✅ Factura procesada:', res);
-            alert('Factura guardada con éxito');
+            this.talker.notificarExitoSnack("Factura Creada con Exíto", "exito");
             this.authService.descargarPDF(res.pdf_url);
             this.authService.ActualizarUserSession().subscribe();
           },
           error: (err) => {
             console.error('❌ Error en el servidor:', err);
+            this.talker.notificarExitoSnack("Error al crear Factura.", "error");
           }
         });
     
@@ -176,6 +204,10 @@ export class FacturacionComponent implements OnInit {
       console.error("❌ No se encontraron datos en sessionStorage. USER_Data o EMPRESA_Data están vacíos.");
       alert("Error de sesión: No se pudieron recuperar los datos del emisor.");
     }
+  }
+
+  prepararDatosEmisor() {
+
   }
 
   getFormErrors(form: any) {

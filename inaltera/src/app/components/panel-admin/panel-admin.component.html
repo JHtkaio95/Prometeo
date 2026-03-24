@@ -1,0 +1,100 @@
+<aside class="admin-panel" *ngIf="esAdmin">
+  <div class="admin-header">
+    <mat-icon>admin_panel_settings</mat-icon>
+    <span>Control Maestro</span>
+  </div>
+
+  <section class="admin-section">
+    <h4>Navegación</h4>
+    <nav>
+      <a routerLink="/admin/usuarios"><mat-icon>people</mat-icon> Gestión Usuarios</a>
+      <a routerLink="/admin/logs"><mat-icon>history</mat-icon> Auditoría Global</a>
+      <a routerLink="/admin/blockchain"><mat-icon>Account_tree</mat-icon> Estado Red</a>
+    </nav>
+  </section>
+
+  <hr class="divider">
+
+  <section class="admin-section">
+    <h4>Funciones Inmediatas</h4>
+    
+    <div class="quick-action">
+      <label>ID Usuario a Investigar</label>
+      <input type="number" [(ngModel)]="idBusqueda" placeholder="Ej: 42">
+      <button (click)="ejecutarMiradorManual(idBusqueda)">Lanzar Mirador</button>
+    </div>
+
+    <div class="quick-action">
+      <mat-checkbox [(ngModel)]="modoMantenimiento" (change)="toggleMantenimiento()">
+        Modo Mantenimiento
+      </mat-checkbox>
+    </div>
+
+    <button class="btn-danger" (click)="limpiarCacheGlobal()">
+      <mat-icon>delete_sweep</mat-icon> Limpiar Caché Servidor
+    </button>
+  </section>
+
+  <hr class="divider">
+  <section class="admin-section">
+    <h4>Vigilante</h4>
+    <app-uso-seguridad tipo="ojo"></app-uso-seguridad>
+    
+    <button (click)="refrescarAuditoria()">Verificar Ahora</button>
+  </section>
+    <!-- <section class="admin-section eye-vigilante">
+    <h4>Estado del Mirador</h4>
+    
+    <div class="eye-container" [ngClass]="{'modo-idle': !seguirRaton, 'modo-follow': seguirRaton}">
+        <svg viewBox="0 0 100 60" class="neon-eye">
+            <defs>
+                <filter id="neonGlow"> </filter>
+
+                <clipPath id="eyeClip">
+                <path d="M10,30 C20,10 80,10 90,30 C80,50 20,50 10,30 Z" class="eye-mask-path" />
+                </clipPath>
+            </defs>
+            
+            <path d="M10,30 C20,10 80,10 90,30 C80,50 20,50 10,30 Z" class="eye-lid" />
+            
+            <g class="iris-group" #irisGroup clip-path="url(#eyeClip)">
+                <circle cx="50" cy="30" r="12" class="iris" />
+                <circle cx="55" cy="25" r="3" class="iris-brillo" />
+            </g>
+        </svg>
+    </div>
+
+    <div class="eye-control">
+        <mat-checkbox class="cj" [(ngModel)]="seguirRaton" (change)="toggleModoOjo()">
+           Seguir Puntero
+        </mat-checkbox>
+    </div>
+    <div class="mirador-section">
+      <h3>Mirador de Integridade</h3>
+      
+      <div class="input-group">
+        <input type="number" [(ngModel)]="idBusqueda" placeholder="ID Utilizador">
+        <button (click)="lanzarMirador()">Auditar</button>
+      </div>
+
+      <div class="blockchain-viz" *ngIf="nodos.length > 0">
+        <div *ngFor="let nodo of nodos; let i = index" class="node-wrapper">
+          
+          <div class="connector" *ngIf="i > 0" [class.broken]="nodo.estado === 'corrupto'"></div>
+          
+          <div class="block" [ngClass]="nodo.estado">
+            <mat-icon>{{ nodo.estado === 'valido' ? 'lock' : 'lock_open' }}</mat-icon>
+            <div class="info">
+              <span class="id">Factura #{{ nodo.id_factura }}</span>
+              <span class="hash">{{ nodo.hash_corto }}</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    </section> -->
+    
+
+</aside>

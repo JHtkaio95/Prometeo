@@ -1,12 +1,29 @@
-<div>
-    <h1>Nueva Factura</h1>
-    <p>Completa los datos para generar una factura</p>
+<div class="header-section">
+    <h1 class="title">Nueva Factura</h1>
+    <p class="subtitle">Completa los datos para certificar y generar tu documento legal.</p>
 </div>
-<div *ngIf="limiteAlcanzado" class="bloqueo-tarifa">
-    <mat-icon>lock</mat-icon>
-    <h3>Has alcanzado el límite de tu plan ({{infoSuscripcion.usadas}}/{{infoSuscripcion.max}})</h3>
-    <p>Tus facturas se reiniciarán el próximo mes o puedes subir de plan ahora.</p>
-    <button (click)="irAPlanes()">Mejorar Plan</button>
+
+<div *ngIf="limiteAlcanzado" class="upgrade-card">
+    <div class="upgrade-icon">
+        <mat-icon>analytics</mat-icon>
+        <div class="lock-badge"><mat-icon>lock</mat-icon></div>
+    </div>
+    
+    <div class="upgrade-content">
+        <h3>Límite de plan alcanzado</h3>
+        <p>Has utilizado <strong>{{infoSuscripcion.usadas}}</strong> de tus <strong>{{infoSuscripcion.max}}</strong> facturas mensuales.</p>
+        
+        <div class="progress-container">
+            <div class="progress-bar" [style.width]="'100%'"></div>
+        </div>
+
+        <p class="info-text">Tus facturas se reiniciarán el próximo mes. ¿Necesitas más capacidad ahora?</p>
+        
+        <button class="btn-upgrade" (click)="irAPlanes()">
+            <span>Mejorar Plan</span>
+            <mat-icon>arrow_forward</mat-icon>
+        </button>
+    </div>
 </div>
 <form [formGroup]="facturaForm" *ngIf="!limiteAlcanzado" class="contenedor-factura" autocomplete="off">
     <div class="seccion-identificacion">
@@ -16,12 +33,24 @@
                 <div formArrayName="cliente">
                     <div class="dato-cliente">
                         <label>NIF/CIF Receptor</label>
-                        <input name="nif" formControlName="nif" 
+                        <input name="nif" formControlName="nif"
+                            [class.input-error]="facturaForm.get('cliente.nif')?.invalid && facturaForm.get('cliente.nif')?.touched"
                             placeholder="A12345678" required>
+                        <small *ngIf="facturaForm.get('cliente.nif')?.errors?.['pattern'] && facturaForm.get('cliente.nif')?.touched" class="error-text">
+                            NIF no válido (Ej: 12345678Z)
+                        </small>
+                        <small *ngIf="facturaForm.get('cliente.nif')?.errors?.['required'] && facturaForm.get('cliente.nif')?.touched" class="error-text">
+                            NIF es obligatorio
+                        </small>
                     </div>
                     <div class="dato-cliente">
                         <label>Nombre Cliente</label>
-                        <input name="nombre-cliente" formControlName="nombre" placeholder="nombre"/>
+                        <input name="nombre-cliente" formControlName="nombre" 
+                            [class.input-error]="facturaForm.get('cliente.nombre')?.invalid && facturaForm.get('cliente.nombre')?.touched"
+                            placeholder="nombre"/>
+                        <small *ngIf="facturaForm.get('cliente.nombre')?.errors?.['required'] && facturaForm.get('cliente.nombre')?.touched" class="error-text">
+                            Nombre de cliente es Obligatorio 
+                        </small>
                     </div>
                     <div class="dato-cliente" formArrayName="direccion_completa">
                         <label>Dirección</label>
@@ -29,7 +58,12 @@
                     </div>
                     <div class="dato-cliente" formArrayName="direccion_completa">
                         <label>Codigo Postal</label>
-                        <input name="postal" formControlName="codigo_postal" placeholder="00000"/>
+                        <input name="postal" formControlName="codigo_postal" 
+                            [class.input-error]="facturaForm.get('serie')?.invalid && facturaForm.get('serie')?.touched"
+                            placeholder="00000"/>
+                        <small *ngIf="facturaForm.get('cliente.direccion_completa.codigo_postal')?.errors?.['pattern'] && facturaForm.get('cliente.direccion_completa.codigo_postal')?.touched" class="error-text">
+                            Valor de código postal inválido (Ej: 12000).
+                        </small>
                     </div>
                 </div>
             </div>
@@ -64,10 +98,10 @@
                         <input formControlName="serie" (change)="cargarCodFac()"/>
                     </div>
                 </div>
-                <div>
+                <!-- <div>
                     <label>Fecha Emisión</label>
                     <input name="fecha" type="date" formControlName="fecha_emision">
-                </div>
+                </div> -->
                 <div>
                     <label>Fecha de Vencimiento</label>
                     <input name="fechaCad" type="date" formControlName="fecha_vencimiento"/>
@@ -99,17 +133,27 @@
         </thead>
         <tbody formArrayName="lineas">
             <tr *ngFor="let linea of lineas.controls; let i = index" [formGroupName]="i">
-            <td><input [name]="'desc'+i" formControlName="descripcion" placeholder="Servicio..."></td>
-            <td><input [name]="'cant'+i" min="0" type="number" formControlName="cantidad" class="w-50"></td>
+            <td>
+                <input [name]="'desc'+i" formControlName="descripcion" placeholder="Servicio...">
+                <small *ngIf="facturaForm.get('i.descripcion')?.errors?.['required'] && facturaForm.get('i.descripcion')?.touched">
+                    Descripción de producto Obligatorio
+                </small>
+            </td>
+            <td>
+                <input [name]="'cant'+i" min="0" type="number" formControlName="cantidad" class="w-50">
+                <small *ngIf="facturaForm.get('cantidad')?.errors?.['required'] && facturaForm.get('cantidad')?.touched">
+                    Cantidad Obligatoria
+                </small>
+            </td>
             <td>
                 <select [name]="'und'+i" formControlName="unidad">
-                <option value="Und">Und</option>
-                <option value="H">Horas</option>
-                <option value="Serv">Servicio</option>
+                <option value="Unidad">Und</option>
+                <option value="Horas">Horas</option>
+                <option value="Servicio">Servicio</option>
                 </select>
             </td>
             <td><input [name]="'pre'+i" min="0" type="number" formControlName="precio_unitario"></td>
-            <td><input [name]="'dto'+i" min="0" type="number" formControlName="descuento"></td>
+            <td><input [name]="'dto'+i" min="0" max="100" type="number" formControlName="descuento"></td>
             <td>
                 <select [name]="'iva'+i" formControlName="iva_porcentaje">
                 <option [ngValue]="21">21%</option>
@@ -158,3 +202,7 @@
         <button class="btn-enviar activo" (click)="submit()" type="submit">Crear y Sellar</button>
     </div>
 </form>
+
+
+
+

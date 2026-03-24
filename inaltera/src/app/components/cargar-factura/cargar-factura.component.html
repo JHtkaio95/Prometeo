@@ -1,5 +1,6 @@
+
 <div class="poderoso">
-    <div>
+    <div class="titulos">
         <h1>Cargar Factura PDF</h1>
         <p>Sube un PDF de factura existente para añadir el sello criptográfico y código QR</p>
     </div>
@@ -15,6 +16,7 @@
             <input id="upload" accept=".pdf" class="seletor-fichero" type="file" (change)="onFileSelected($event)" hidden/>
             <label class="upload" for="upload">Seleccionar archivo</label>
         </div>
+        
     </div>
     <div class="archivo-cargado boxer" *ngIf="archivo">
         <div class="info-container">
@@ -27,8 +29,8 @@
             </div>
         </div>
         <div class="acciones">
-            <button class="btn-cancelar" (click)="cancelar()">cancelar</button>
-            <button class="btn-sellar" (click)="abrirForm()"> Cargar y Sellar PDF</button>
+            <button class="btn-cancel" (click)="cancelar()">cancelar</button>
+            <button class="btn-submit" (click)="abrirForm()"> Cargar y Sellar PDF</button>
         </div>
     </div>
 

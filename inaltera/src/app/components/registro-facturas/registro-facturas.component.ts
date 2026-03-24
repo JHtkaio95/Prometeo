@@ -7,7 +7,8 @@ import { AuthService } from '../../services/auth.service';
 import { MatFormField} from '@angular/material/form-field';
 import { MatDatepickerModule} from '@angular/material/datepicker';
 import { environment } from '../../../environments/environment';
-
+import { BlockchainService } from '../../services/blockchain.service';
+import { UsoSeguridadComponent } from '../uso-seguridad/uso-seguridad.component';
 
 export interface Cliente{
   nombre: string;
@@ -25,7 +26,7 @@ export interface Factura {
   id_factura: number;
   NIF: string;
   serie: string;
-  numero: number;
+  numero: string;
   fecha_emision: string;
   tipo_factura: string;
   base_total: number;
@@ -41,7 +42,7 @@ export interface Factura {
   selector: 'app-registro-facturas',
   standalone: true,
   imports: [FormsModule, CommonModule, MatCommonModule, MatIconModule,
-    MatFormField, MatDatepickerModule
+    MatFormField, MatDatepickerModule, UsoSeguridadComponent
   ],
   templateUrl: './registro-facturas.component.html',
   styleUrl: './registro-facturas.component.css'
@@ -58,12 +59,35 @@ export class RegistroFacturasComponent implements OnInit{
 
   apiURL = environment.apiUrl;
 
-  constructor(private fb: FormBuilder, private authService: AuthService){
+  cadenaIntegra: boolean = true;
+  auditando: boolean = true;
+
+  constructor(
+    private fb: FormBuilder, 
+    private authService: AuthService,
+    private blockchainService: BlockchainService
+  ){
     this.facturaForm = this.fb.group({});
   }
 
   ngOnInit(){
     this.getFacturas();
+    this.verificarSeguridad();
+  }
+
+  verificarSeguridad() {
+    this.auditando = true;
+
+    this.blockchainService.auditarMiUsuario().subscribe({
+      next: (res) => {
+        this.cadenaIntegra = res.integro;
+        this.auditando = false;
+      },
+      error: () => {
+        this.cadenaIntegra = false;
+        this.auditando = false;
+      }
+    });
   }
 
   getFacturas() {
@@ -77,7 +101,7 @@ export class RegistroFacturasComponent implements OnInit{
             id_factura: Number(f.id_factura),
             NIF: String(f.NIF),
             serie: String(f.serie),
-            numero:  Number(f.numero),
+            numero: String(f.numero),
             fecha_emision: f.fecha_emision,
             tipo_factura: String(f.tipo_factura),
             base_total: Number(f.base_total),

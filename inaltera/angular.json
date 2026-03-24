@@ -62,6 +62,10 @@
             },
             "development": {
               "buildTarget": "inaltera:build:development"
+            },
+            "options": {
+              "host": "0.0.0.0",
+              "allowedHosts": ["laptod-ntu9dcf0"]
             }
           },
           "defaultConfiguration": "development"

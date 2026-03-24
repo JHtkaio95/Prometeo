@@ -7,6 +7,7 @@ export interface Auth {
     limite_facturas: number;
     email:string;
     role?: string;
+    esVerificado: boolean;
 }
 
 export class User {
@@ -19,5 +20,6 @@ export class User {
         public limite_facturas: number,
         public token: string,
         public role: string,
+        public esVerificado: boolean
     ){}
 }

@@ -24,7 +24,6 @@ export class AuthService {
   private usa!: Auth;
   private userSubject = new BehaviorSubject<any>(JSON.parse(sessionStorage.getItem("USER_Data") || '{}'));
 
-
   private readonly TOKEN_KEY = 'token_Data';
   private readonly USER_DATA_KEY = 'USER_Data';
   private readonly EMPRESA_DATA_KEY = 'Empresa_Data';
@@ -33,6 +32,7 @@ export class AuthService {
 
   private empresa = this.buscarEmpresaParaUsuario();
   public user$ = this.userSubject.asObservable();
+
 
   apiURLUsers = environment.apiUrl;
   apiURLUsersLocal = environment.apiUrlLocal;
@@ -107,6 +107,26 @@ export class AuthService {
     return this.http.get<any[]>(`${this.apiURLUsers}/getFacturas.php`);
   }
 
+  isAdmin(): boolean {
+    const user = JSON.parse(sessionStorage.getItem("USER_Data") || "{}");
+
+    if(user.role === "administrador") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isVerified(): boolean {
+    const user = JSON.parse(sessionStorage.getItem("USER_Data") || "{}");
+
+    if(user.esVerificado) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   ActualizarUserSession(): Observable<Auth>{
     return this.http.get<Auth>(`${this.apiURLUsers}/getDatosUsuario.php`)
       .pipe(
@@ -137,7 +157,8 @@ export class AuthService {
         facturas_usadas: user.facturas_usadas,
         limite_facturas: user.limite_facturas,
         role: user.role,
-        token: user.token
+        token: user.token,
+        esVerificado: user.esVerificado
       };
       this.usa = user;
       this.authToken = user.token;
@@ -203,7 +224,7 @@ export class AuthService {
     this.clearSessionStorage();
     this.isAuthenticated = false;
     this.authToken = null;
-    this.router.navigate(['/auth']);
+    this.router.navigate(['/auth/login']);
   }
 
   clearSessionStorage(): void {

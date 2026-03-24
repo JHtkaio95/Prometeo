@@ -6,6 +6,8 @@ import { MatCommonModule } from '@angular/material/core';
 import { AuthService } from '../../services/auth.service';
 import { TarifasComponent } from '../tarifas/tarifas.component';
 import { UsoSuscripcionComponent } from '../uso-suscripcion/uso-suscripcion.component';
+import Swal from 'sweetalert2';
+import { TalkerService } from '../../services/talker.service';
 
 export interface Empresa {
   nif: string;
@@ -41,7 +43,10 @@ export class DatosEmpresaComponent implements OnInit{
     telefono_empresarial: 0
   };
 
-  constructor(private authService: AuthService){}
+  constructor(
+    private authService: AuthService,
+    private talker: TalkerService
+  ){}
 
   ngOnInit(): void {
     this.iniciarEmpresa();
@@ -66,12 +71,13 @@ export class DatosEmpresaComponent implements OnInit{
         this.empresa.pais,
         this.empresa.telefono_empresarial, 
         id_usuario).subscribe(data => {
+          this.talker.notificarExitoSnack("Empresa guardada.", 'exito');
       },
       error => {
         console.log(error, "Error al enviar datos");
+        this.talker.notificarExitoSnack("Error al guardar Datos fiscales.", 'error');
     });
     }
-
     
   }
 

@@ -1,0 +1,235 @@
+.admin-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 280px;
+  height: 100vh;
+  color: #f8fafc;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background-size: contain;
+  background-blend-mode: multiply;
+  background-image: linear-gradient(rgb(29, 35, 76)), url('/assets/texture.jpg');
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #38bdf8; /* Azul brillante */
+  margin-bottom: 30px;
+}
+
+.admin-section h4 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
+.admin-section nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  color: #cbd5e1;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.admin-section nav a:hover {
+  background: #334155;
+  color: white;
+}
+
+.quick-action {
+  background: #334155;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.quick-action label {
+  font-size: 0.8rem;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.quick-action input {
+  width: 100%;
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.btn-danger {
+  margin-top: auto;
+  background: #991b1b;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+
+
+
+/* Sección Ojo Vigilante */
+.eye-vigilante {
+  margin-top: auto; /* Empuja el ojo al fondo del panel */
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.eye-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.neon-eye {
+  width: 80px;
+  height: auto;
+  filter: url(#neonGlow); /* Aplicamos el filtro SVG */
+}
+
+/* Colores Neón base */
+.eye-lid, .iris {
+  fill: none;
+  stroke: #0b7fc8;
+  stroke-width: 2;
+  transition: stroke 0.3s;
+  filter: drop-shadow(0 0 4px rgb(0, 195, 255));
+}
+
+.iris-brillo {
+  fill: white;
+  opacity: 0.8;
+}
+
+/* --- ANIMACIONES MODO IDLE --- */
+
+.modo-idle .eye-lid,
+.modo-idle .eye-mask-path,
+.modo-idle .iris-group {
+  /* Parpadeo rápido (scaleY) */
+  animation: parpadeo 10s infinite; 
+  transform-origin: center;
+}
+
+.modo-idle .iris-group {
+  /* Movimiento Izquierda-Centro */
+  animation: mirarIdle 10s infinite; 
+}
+
+/* Animación Parpadeo (Cada 10s, cierra 0.2s) */
+@keyframes parpadeo {
+  0%, 93%, 96%, 100% { transform: scaleY(1); }
+  94%, 95% { transform: scaleY(0); } /* Parpadeo rápido */
+}
+
+/* Animación Mirar Idle (Dura 10s) */
+@keyframes mirarIdle {
+  0%, 5% { transform: translateX(0); }       /* Mira de Frente (Inicio) */
+  10%, 40% { transform: translateX(-15px); } /* Mira a la izquierda */
+  45%, 100% { transform: translateX(0); }     /* Vuelve y se queda de frente */
+}
+
+/* --- MODO FOLLOW --- */
+.modo-follow .neon-eye {
+  filter: drop-shadow(0 0 5px #ff0026); /* Cambia color neón a verde */
+}
+
+.modo-follow .eye-lid, .modo-follow .iris {
+  stroke: #ff0000; /* Verde seguridad */
+}
+
+/* Estilos Checkbox */
+.eye-control {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+.cj{
+    --mdc-checkbox-selected-icon-color:red !important;
+    --mdc-checkbox-selected-focus-icon-color:red !important;
+    --mdc-checkbox-selected-hover-icon-color:red !important;
+    --mat-checkbox-state-layer-color:red;
+    --mdc-checkbox-unselected-icon-color:red !important;
+    --mdc-checkbox-unselected-focus-icon-color:red !important;
+    --mdc-checkbox-unselected-hover-icon-color:red !important;
+    
+}   
+
+/* PeqSeño hack para forzar el color verde en mat-checkbox */
+.modo-follow + .eye-control ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+  background-color: #ff0000 !important;
+}
+.modo-follow .eye-mask-path {
+    transform: scaleY(1);
+}
+
+
+
+
+.blockchain-viz {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: #0a0f1a;
+  border-radius: 12px;
+}
+
+.block {
+  width: 180px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #38bdf8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+}
+
+/* Estilo para Bloco Corrompido */
+.block.corrupto {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+.connector {
+  width: 2px;
+  height: 20px;
+  background: #38bdf8;
+}
+
+.connector.broken {
+  background: #ef4444;
+  border-left: 2px dashed #ef4444;
+}
+
+.hash {
+  font-size: 0.6rem;
+  font-family: monospace;
+  display: block;
+}

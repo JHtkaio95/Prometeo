@@ -5,6 +5,9 @@
 p {
     color:gray;
 }
+.titulos {
+    margin-bottom:15px;
+}
 .dragable {
     transition:0.2s;
     border-width: 2px;
@@ -127,22 +130,50 @@ svg{
     gap: 10px;
 }
 
+.acciones {
+    display:flex;
+    width:250px;
+    gap:5px;
+}
+
 .btn-submit {
+    transition:0.2s ease-in-out;
+    position: relative;
     flex: 2;
-    background: #1a237e;
+    z-index: 1;
+    overflow: hidden;
+    background: rgb(0, 80, 167);
     color: white;
     border: none;
     padding: 12px;
     border-radius: 8px;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     gap: 8px;
     cursor: pointer;
 }
+.btn-submit::before {
+    content:"";
+    position: absolute;
+    top:0; left: 0; right: 0; bottom: 0;
+    z-index: -1;
+    background: linear-gradient(135deg, rgba(0, 123, 255, 1) 70%, rgb(0, 80, 167) 100%);
+    transition: opacity 0.2s ease-in-out;
+}
+.btn-submit::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: -1;
+    background: linear-gradient(135deg, rgba(0, 123, 255, 1) 0%, rgb(0, 80, 167) 100%);
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+.btn-submit:hover::after {
+    opacity: 1;
+}
 
 .btn-cancel {
+    transition:0.3s;
     flex: 1;
     background: #f1f1f1;
     border: none;
@@ -150,6 +181,10 @@ svg{
     cursor: pointer;
 }
 
+.btn-cancel:hover {
+    transition:0.3s;
+    background-color:rgb(224, 224, 224);
+}
 
 .error-text {
     color: #d32f2f;

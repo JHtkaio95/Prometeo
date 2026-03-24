@@ -3,16 +3,38 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+
+
 .activo, .blue-button, .logo {
-    transition:0.1s;
-    background: linear-gradient(135deg, rgba(0, 123, 255, 1) 0%, rgb(0, 80, 167) 100%);
-    color:white;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    color:white !important;
 }
 
-.activo:hover, .blue-button:hover {
-    transition:0.1s;
-    /* filter: brightness(110%); */
-    filter: invert();
+.activo::before, .blue-button::before, .logo::before {
+    transition:opacity 0.2s ease-in-out;
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top:0; left:0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 123, 255, 1) 0%, rgb(0, 80, 167) 100%);
+    
+}
+
+.activo::after, .blue-button::after {
+    transition:opacity 0.2s ease-in-out;
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top:0; left:0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgb(0, 183, 255) 0%, rgb(0, 45, 167) 100%);
+    /* background: linear-gradient(135deg, rgb(255, 72, 0) 0%, rgb(167, 47, 0) 100%); */
+    opacity: 0;
+}
+
+.activo:hover::after, .blue-button:hover::after {
+    opacity: 1;
 }
 .cabecera{
     margin-bottom:2rem;
@@ -57,4 +79,44 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     border: 1px solid rgb(209, 209, 209);
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
     overflow: auto;
+}
+
+.inaltera-toast {
+    --mdc-snackbar-container-shape: 12px;
+    --mdc-snackbar-container-color: transparent;
+}
+
+.inaltera-toast .mdc-snackbar__surface {
+    background: rgba(15, 23, 42, 0.85) !important;
+    backdrop-filter: blur(8px);
+    border-radius: 12px !important;
+    padding: 12px 20px !important;
+    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3) !important;
+    display: flex;
+    justify-content: center;
+}
+
+.toast-exito .mdc-snackbar__label {
+    color: #10b981 !important;
+    font-weight: 500;
+    text-align: center;
+    border-left: 4px solid #10b981;
+    padding-left: 15px;
+}
+
+.toast-error .mdc-snackbar__label {
+    color: #fb7185 !important;
+    font-weight: 500;
+    text-align: center;
+    border-left: 4px solid #fb7185;
+    padding-left: 15px;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(100%); opacity: 0;}
+    to { transform: translateY(0); opacity: 1;}
+}
+
+.cdk-overlay-pane:has(.inaltera-toast) {
+    animation: slideIn 0.3s ease-out;
 }
